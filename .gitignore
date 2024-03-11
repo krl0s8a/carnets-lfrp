@@ -1,0 +1,59 @@
+.DS_Store
+
+app/cache/*
+!app/cache/index.html
+
+app/logs/*
+!app/logs/index.html
+
+!app/*/.htaccess
+
+composer.lock
+
+/vendor/
+
+# IDE Files
+#-------------------------
+/nbproject/
+.idea/*
+
+## Sublime Text cache files
+*.tmlanguage.cache
+*.tmPreferences.cache
+*.stTheme.cache
+*.sublime-workspace
+*.sublime-project
+/tests/tests/
+/tests/results/
+
+# Ignore Custom config files
+app/config/development/*
+app/config/testing/*
+app/config/production/*
+app/config/installed.txt
+
+# Ignore Bonfire Application Specifics
+app/logs/*
+!app/logs/index.html
+app/cache/*
+!app/cache/index.html
+web/assets/cache/*
+!web/assets/cache/index.html
+
+# uploads
+web/assets/uploads/*
+!web/assets/uploads/index.html
+
+# captcha
+web/captcha/*
+!web/captcha/index.html
+
+# files
+web/files/*
+!web/files/index.html
+
+# index
+web/index.php
+
+# session
+app/session/*
