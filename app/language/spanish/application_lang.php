@@ -351,12 +351,13 @@ $lang['datatables_lang'] = [
 ];
 
 /// BUTTONS
-$lang['save'] = 'GUARDAR';
+$lang['save'] = 'Guardar';
+$lang['saveandnew'] = 'Guardar y nuevo';
 $lang['print'] = 'IMPRIMIR';
 $lang['modify'] = 'MODIFICAR';
 $lang['cancel'] = 'CANCELAR';
 $lang['edit'] = 'EDITAR';
-$lang['close'] = 'CERRAR';
+$lang['close'] = 'Cerrar';
 $lang['delete'] = 'ELIMINAR';
 $lang['create'] = 'CREAR';
 $lang['update'] = 'ACTUALIZAR';
@@ -369,3 +370,4 @@ $lang['new'] = 'Nuevo';
 // FIELDS
 $lang['co_new'] = 'Nuevo';
 $lang['co_list'] = 'Listado';
+$lang['co_edit'] = 'Editar';

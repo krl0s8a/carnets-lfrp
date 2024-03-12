@@ -22,241 +22,38 @@ $uri2 = $this->uri->segment(2);
                 </span>
             </a>
         </li>
-        <!-- Boletos -->
-        <li class="mm_tickets <?php echo $boletos ? 'active' : ''; ?>">
-            <a class="dropmenu" href="#">
-                <i class="fa fa-credit-card"></i>
-                <span class="text"> Boletos </span>
-                <span class="chevron closed"></span>
-            </a>
-            <ul <?php echo $boletos ? 'style="display: block;"' : ''; ?>>
-                <!-- Abonos -->
-                <li id="sb_abonos" class="<?php echo class_exists('abonos') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?= site_url('abonos'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?php echo lang('abonos'); ?>
-                        </span>
-                    </a>
-                </li>
-                <!-- Asignacion de boletos  -->
-                <li id="sb_assignments" class="<?php echo class_exists('assignments') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?= site_url('assignments'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?php echo lang('assignments') ?>
-                        </span>
-                    </a>
-                </li>
-                <li id="sb_scrolls" class="<?php echo class_exists('scrolls') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?= site_url('scrolls'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?php echo lang('scrolls'); ?>
-                        </span>
-                    </a>
-                </li>
-                <li id="sb_tickets" class="<?php echo class_exists('tickets') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?= site_url('tickets'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?php echo lang('ticket_types'); ?>
-                        </span>
-                    </a>
-                </li>
-                <li id="sb_collections" style="display: none;"
-                    class="<?php echo class_exists('collections') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?= site_url('collections'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?php echo lang('collection') ?>
-                        </span>
-                    </a>
-                </li>
-                <!--Tarifa de abonos-->
-                <li id="sb_tariffs" class="<?php echo class_exists('tariffs') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?= site_url('tariffs'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?php echo lang('tariffs'); ?>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <!-- Trafico -->
-        <li class="mm_traffic <?php echo $traffic ? 'active' : ''; ?>">
-            <a class="dropmenu" href="#">
-                <i class="fa fa-random"></i>
-                <span class="text">
-                    <?= lang('traffic'); ?>
-                </span>
-                <span class="chevron closed"></span>
-            </a>
-            <ul <?php echo $traffic ? 'style="display:block"' : ''; ?>>
-                <li id="sb_trips" class="<?php echo class_exists('trips') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?php echo site_url('trips'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?= lang('trips'); ?>
-                        </span>
-                    </a>
-                </li>
-                <li id="sb_services" class="<?php echo class_exists('services') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?php echo site_url('services'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?= lang('services'); ?>
-                        </span>
-                    </a>
-                </li>
-                <li id="sb_routes" class="<?php echo class_exists('routes') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?php echo site_url('routes'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?= lang('routes'); ?>
-                        </span>
-                    </a>
-                </li>
-                <li id="sb_lines" class="<?php echo class_exists('lines') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?php echo site_url('lines'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?= lang('lines'); ?>
-                        </span>
-                    </a>
-                </li>
-                <li id="sb_trips" class="<?php echo class_exists('cities') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?php echo site_url('cities'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?= lang('cities'); ?>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-        <!-- schools -->
-        <li id="submenu_customers" class="<?php echo class_exists('schools') ? 'active' : ''; ?>">
-            <a class="submenu" href="<?= site_url('schools'); ?>">
-                <i class="fa fa-university"></i><span class="text">
-                    <?= lang('schools'); ?>
-                </span>
-            </a>
-        </li>
-        <!-- Customers -->
-        <li id="submenu_customers" class="<?php echo class_exists('passengers') ? 'active' : ''; ?>">
-            <a class="submenu" href="<?= site_url('passengers'); ?>">
-                <i class="fa fa-users"></i><span class="text">
-                    <?= lang('passengers'); ?>
-                </span>
-            </a>
-        </li>
-        <!-- Terceros -->
-        <li class="mm_societe <?php echo class_exists('societe') ? 'active' : ''; ?>">
-            <a href="<?= site_url('societe') ?>">
+         <!-- Terceros -->
+        <li class="mm_societe <?php echo class_exists('cards') ? 'active' : ''; ?>">
+            <a href="<?= site_url('cards') ?>">
                 <i class="fa fa-building"></i>
                 <span class="text">
-                    <?= lang('people'); ?>
+                    Carnets
                 </span>
             </a>
         </li>
-        <!-- Empresa -->
-        <li class="mm_corporate <?php echo $business ? 'active' : ''; ?>">
-            <a class="dropmenu" href="#">
-                <i class="fa fa-th-large"></i>
-                <span class="text">
-                    <?= lang('company'); ?>
-                </span>
-                <span class="chevron closed"></span>
-            </a>
-            <ul <?php echo $business ? 'style="display:block"' : ''; ?>>
-                <li id="sb_employees" class="<?php echo class_exists('employees') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?= site_url('employees'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?= lang('employees'); ?>
-                        </span>
-                    </a>
-                </li>
-                <!-- Puntos de venta -->
-                <li id="sb_points" class="<?php echo class_exists('points') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?= site_url('points'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?php echo lang('points') ?>
-                        </span>
-                    </a>
-                </li>
-                <!-- Vehiculos -->
-                <li id="sb_buses" class="<?php echo class_exists('buses') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?= site_url('buses'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?= lang('buses'); ?>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-
-
-        <!-- Bancos y cajas -->
-        <li class="mm_bank <?php echo class_exists('banks') ? 'active' : ''; ?>">
-            <a href="<?= site_url('banks') ?>">
-                <i class="fa fa-bank"></i>
-                <span class="text">
-                    <?php echo lang('banks') ?>
+        <!-- Jugadores -->
+        <li id="submenu_customers" class="<?php echo class_exists('players') ? 'active' : ''; ?>">
+            <a class="submenu" href="<?= site_url('players'); ?>">
+                <i class="fa fa-users"></i><span class="text">
+                    Jugadores
                 </span>
             </a>
         </li>
-        <!-- Operaciones -->
-        <li class="mm_business <?php echo $operations ? 'active' : ''; ?>" style="display:none;">
-            <a class="dropmenu" href="#">
-                <i class="fa fa-star"></i>
-                <span class="text">
-                    <?= lang('operations') ?>
-                </span>
-                <span class="chevron closed"></span>
-            </a>
-            <ul <?php echo $operations ? 'style="display:block"' : ''; ?>>
-                <!-- Puntos de venta -->
-                <li id="sb_purchases" class="<?php echo class_exists('purchases') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?= site_url('purchases'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?php echo lang('purchases') ?>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <!-- Financiera -->
-        <li class="mm_financial <?php echo $financial ? 'active' : ''; ?>">
-            <a class="dropmenu" href="#">
-                <i class="fa fa-dollar"></i>
-                <span class="text"> Financiera </span>
-                <span class="chevron closed"></span>
-            </a>
-            <ul <?php echo $financial ? 'style="display:block"' : ''; ?>>
-                <!-- Sueldos -->
-                <li iid="sb_salary" class="<?php echo class_exists('salaries') ? 'active' : ''; ?>">
-                    <a class="submenu" href="<?= site_url('salaries'); ?>">
-                        <i class="fa fa-minus"></i><span class="text">
-                            <?= lang('salary') ?>
-                        </span>
-                    </a>
-                </li>
-            </ul>
-        </li>
-        <!-- Notifications -->
-        <li class="mm_notifications" style="display: none;">
-            <a class="submenu" href="<?= site_url('notifications'); ?>">
-                <i class="fa fa-info-circle"></i><span class="text">
-                    <?= lang('notifications'); ?>
+        <!-- Equipos -->
+        <li id="submenu_customers" class="<?php echo class_exists('teams') ? 'active' : ''; ?>">
+            <a class="submenu" href="<?= site_url('teams'); ?>">
+                <i class="fa fa-users"></i><span class="text">
+                    Equipos
                 </span>
             </a>
         </li>
-        <!-- Calendar -->
-        <li class="mm_calendar" style="display: none;">
-            <a class="submenu" href="<?= site_url('calendar'); ?>">
-                <i class="fa fa-calendar"></i><span class="text">
-                    <?= lang('calendar'); ?>
-                </span>
-            </a>
-        </li>
+       
         <!-- Settings -->
         <li class="mm_settings <?php echo $settings ? 'active' : ''; ?>">
             <a class="dropmenu" href="#">
                 <i class="fa fa-cogs"></i>
                 <span class="text">
-                    <?= lang('system'); ?>
+                    Ajustes
                 </span>
                 <span class="chevron closed"></span>
             </a>
