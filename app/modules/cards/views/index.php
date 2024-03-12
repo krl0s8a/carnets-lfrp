@@ -1,8 +1,8 @@
 <?php echo form_open('cities/citiesActions', array('id' => 'action-form')); ?>
 <div class="box">
     <div class="box-header">
-        <h2 class="blue"><i class="fa-fw fa fa-bus"></i>
-            <?= lang('list_cities'); ?>
+        <h2 class="blue"><i class="fa-fw fa fa-plus"></i>
+            Confeccion de carnets
         </h2>
         <div class="box-icon">
             <ul class="btn-tasks">
@@ -39,17 +39,20 @@
                                 <th style="min-width:30px; width: 30px; text-align: center;">
                                     <input class="checkbox checkth" type="checkbox" name="check" />
                                 </th>
-                                <th>
+                                <th style="width: 23%; text-align: left;">
                                     <?php echo lang('lbl_player'); ?>
                                 </th>
-                                <th>
+                                <th style="width: 23%; text-align: left;">
                                     <?php echo lang('lbl_team'); ?>
                                 </th>
-                                <th>
+                                <th style="width: 23%; text-align: left;">
                                     <?php echo lang('lbl_season'); ?>
                                 </th>
-                                <th>
+                                <th style="width: 10%; text-align: left;">
                                     <?php echo lang('lbl_number'); ?>
+                                </th>
+                                <th style="width: 16%; text-align: left;">
+                                    <?php echo lang('lbl_date'); ?>
                                 </th>
                                 <th>
                                     <?php echo lang('actions'); ?>
@@ -58,7 +61,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td colspan="6" class="dataTables_empty">
+                                <td colspan="7" class="dataTables_empty">
                                     <?= lang('loading_data_from_server') ?>
                                 </td>
                             </tr>

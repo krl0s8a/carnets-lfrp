@@ -217,8 +217,6 @@ class Users extends MY_Controller {
 
         $this->load->model('state_model');
         Template::set('states', $this->state_model->getStates());
-        $this->load->model('cities/city_model');
-        Template::set('cities', $this->city_model->getCitiesByState(2));
         Template::set('gen_password', generatePassword(10));
         Template::set('toolbar_title', lang('us_create_user'));
         Template::set_view('users/user_form');

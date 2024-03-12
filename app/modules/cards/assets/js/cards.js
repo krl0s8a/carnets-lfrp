@@ -22,7 +22,7 @@ oTable = $('#cards_table').dataTable({
     "aoColumns": [{
         "bSortable": false,
         "mRender": checkbox
-    }, null, null, null, null, null]
+    }, null, null, null, null, null, null]
 });
 
 $player = $('#posplayer');

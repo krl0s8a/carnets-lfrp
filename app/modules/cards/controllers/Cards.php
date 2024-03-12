@@ -47,6 +47,7 @@ class Cards extends MY_Controller {
         Template::render();
     }
 
+    
     private function print_card(){
 
         $this->load->library('pdf');
@@ -280,6 +281,7 @@ class Cards extends MY_Controller {
         if (!$this->input->is_ajax_request()) {
             redirect('404', 'refresh');
         } else {
+            $action = '<a href="'.site_url('cards/print_card_public/$1/$2').'">Imprimir</a>';
             $this->load->library('datatables');
             $this->datatables->set_database('joomla');
             $this->datatables
@@ -288,7 +290,8 @@ class Cards extends MY_Controller {
                 ->join('co_bl_players as t2', 't2.id = t1.player_id', 'left')
                 ->join('co_bl_teams as t3', 't3.id = t1.team_id', 'left')
                 ->join('co_bl_seasons as t4', 't4.s_id = t1.season_id', 'left')
-                ->where('t1.confirmed',1);
+                ->where('t1.confirmed',1)
+                ->add_column('Actions', $action, 't2.id');
                 //->edit_column('name', '$1__$2', 'name, id')
                 //->edit_column('status', '$1__$2', 'status, id');
             echo $this->datatables->generate();
