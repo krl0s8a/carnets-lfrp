@@ -30,6 +30,14 @@ class Card_model extends MY_Model {
     }
 
     public function prep_data($post){
+        if (!empty($post['location_photo'])) {
+            $arr = explode('/', $post['location_photo']);
+            $c = count($arr);
+            $file = $arr[$c-1];
+        } else {
+            $file = '';
+        }
+
         $data = array(
             'player_id' => $post['player'],
             'team_id' => $post['team_id'],
@@ -37,7 +45,9 @@ class Card_model extends MY_Model {
             'number' => $post['number'],
             'confirmed' => 1,
             'type_player' => $post['type_player'],
-            'datetime' => date('Y-m-d H:i:s')
+            'datetime' => date('Y-m-d H:i:s'),
+            'photo' => $file,
+            'category' => $post['category']
         );
         return $data; 
     }

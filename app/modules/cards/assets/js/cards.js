@@ -2,6 +2,9 @@ function linkView(x) {
     var y = x.split('__');
     return '<a data-toggle="modal" data-target="#myModal" href="' + site.base_url + 'cities/edit/' + y[1] + '" title="Ver detalles del permiso">' + y[0] + '</a>';
 }
+function render_type_player(x){
+    return arr_type_player[x];
+}
 
 oTable = $('#cards_table').dataTable({
     "aaSorting": [[0, "desc"]],
@@ -22,7 +25,7 @@ oTable = $('#cards_table').dataTable({
     "aoColumns": [{
         "bSortable": false,
         "mRender": checkbox
-    }, null, null, null, null, null, null]
+    }, null, null, null, null, {"mRender": render_type_player}, null]
 });
 
 $player = $('#posplayer');

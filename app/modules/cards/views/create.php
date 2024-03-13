@@ -136,7 +136,7 @@
                 'id' => 'save',
                 'type' => 'submit',
                 'class' => 'btn btn-primary',
-                'content' => '<i class="fa fa-edit"></i> '.$this->lang->line('create')
+                'content' => '<i class="fa fa-print"></i> Guardar e imprimir'
             )
         );
         echo form_button(
@@ -145,10 +145,10 @@
                 'id' => 'saveandnew',
                 'type' => 'submit',
                 'class' => 'btn btn-default',
-                'content' => '<i class="fa fa-chevron-down"></i> '.$this->lang->line('saveandnew')
+                'content' => '<i class="fa fa-plus"></i> '.$this->lang->line('saveandnew')
             )
         ); 
-        echo anchor(site_url('players'), '<i class="fa fa-remove"></i> '.lang('close'), array('class' => 'btn btn-default')); 
+        echo anchor(site_url('cards'), '<i class="fa fa-remove"></i> '.lang('close'), array('class' => 'btn btn-default')); 
         ?>
     </div>    
     <?= form_close(); ?>
