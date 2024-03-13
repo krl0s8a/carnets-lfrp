@@ -16,7 +16,7 @@
                         por Apellido, Nombre o DNI)</div>
                     <div class="panel-body" style="padding: 5px;">
                         <div class="row">
-                            <div class="col-md-3">
+                            <div class="col-md-4">
                                 <div class="form-group">
                                     <?= lang('lbl_player', 'posplayer'); ?>
                                     <div class="input-group">
@@ -60,10 +60,6 @@
                                     set_value('team_id'),
                                     'Seleccione el equipo'
                                 );
-                                ?>
-                            </div>
-                            <div class="col-md-2">
-                                <?php 
                                 echo co_form_input(
                                     array(
                                         'name' => 'number',
@@ -107,7 +103,7 @@
                                 );
                                 ?>
                             </div>
-                            <div class="col-md-7">  
+                            <div class="col-md-8">  
                                 <div class="form-group">
                                     <label for="">Seleccione camara</label>
                                     <div class="input-group">
