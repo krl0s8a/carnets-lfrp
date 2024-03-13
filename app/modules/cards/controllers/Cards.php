@@ -153,107 +153,103 @@ class Cards extends MY_Controller {
     private function print_a4($data = array()){
         if (is_array($data) && !empty($data)) {
             $qt = count($data);
-            $this->load->library('pdf');  
-
-            
+            $this->load->library('pdf');            
             $this->pdf->AddPage('P', 'A4');
             $this->pdf->setMargins(0, 0, 0);
-
-            $h = 10;
-            $x = 0;
-            $y = 0;
+            $y = -50;
             for ($i = 0; $i < $qt; ++$i) {
                 if (in_array($i, array(0,2,4,6,8))) {
-                    $w = 10;
+                    $x = 10;
+                    $y += 60;
                 } else {
-                    $w = 110;
+                    $x = 110;
                 }
-
-                $this->pdf->SetXY(32,21.5);
-                $this->pdf->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/template_card/'.$template,0,0, 90,60);
-                $this->pdf->Cell(35, 8, strtoupper($card->team_name), 0);  
-            }   
-            // Obtenemos los datos para el carnet
-            // $card = $this->card_model->find_data_card($team_id,$player_id,$season_id);
-            // switch ($card->category) {
-            //     case 1: // masculino
-            //         if (in_array($card->type_player, array(1, 2,4,6,8,10))) {
-            //             $template = 'masculino-residente.png';
-            //         } else {
-            //             $template = 'masculino-libre.png';
-            //         }
-            //         break;
-            //     case 2: // femenino
-            //         if (in_array($card->type_player, array(1, 3, 5,7,9,10))) {
-            //             $template = 'femenino-residente.png';
-            //         } else {
-            //             $template = 'femenino-libre.png';
-            //         }
-            //         break;
-            //     case 3: // standar masculino
-            //         if (in_array($card->type_player, array(1, 2,4,6,8,10))) {
-            //             $template = 'masculino-residente-standar.png';
-            //         } else {
-            //             $template = 'masculino-libre-standar.png';
-            //         }
-            //         break;
-            //     default: // standar femenino
-            //         // code...
-            //         break;
-            // }
-            
-            // $this->pdf->setMargins(0, 0, 0);
-            // $this->pdf->AddPage('L', array(90, 60));
-            // $this->pdf->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/template_card/'.$template,0,0, 90,60);
-            // $this->pdf->Image($_SERVER['DOCUMENT_ROOT'].'/assets/photos/shields/'.$card->emblem,40,1, 17,17);
-            // $this->pdf->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/qr.png',70,0, 20,20);
-            // if (!empty($card->photo)) {
-            //     $this->pdf->Image($_SERVER['DOCUMENT_ROOT'].'/assets/uploads/photos/'.$card->photo,0,24.7, 23.3,23.3);
-            // }        
-            // $this->pdf->SetAutoPageBreak(true, 0);
-
-            // $this->pdf->SetFont('Arial', 'B', 8);
-            // // Calculo edad
-            // if (in_array($card->category, array(3,4))) {
-            //     if (isset($card->birth) && !empty($card->birth)) {
-            //         $edad = edad($card->birth);                
-            //         if ($edad > 34) {     
-            //             $this->pdf->SetXY(9,20);               
-            //             $this->pdf->Cell(6, 8, '> 35' , 0);
-            //         } else {
-            //             $this->pdf->SetXY(10,20);
-            //             $this->pdf->Cell(6, 8, $edad , 0);
-            //         }
-            //     }
-                
-            // }
-            // $this->pdf->SetFont('Arial', '', 6);
-            // // Nombre del equipo
-            // $this->pdf->SetXY(32,21.5);
-            // $this->pdf->Cell(35, 8, strtoupper($card->team_name), 0);
-            // // Apellid
-            // $this->pdf->SetXY(34.2,26.4);
-            // $this->pdf->Cell(35, 8, strtoupper($card->last_name), 0);
-            // // Nombre
-            // $this->pdf->SetXY(34.3,31.1);
-            // $this->pdf->Cell(35, 8, strtoupper(utf8_decode($card->first_name)), 0);
-            // // Tipo jugador
-            // $this->pdf->SetXY(41,36.5);
-            // $this->pdf->Cell(35, 8, strtoupper(type_player()[$card->type_player]), 0);
-            // // N° carnet
-            // $this->pdf->SetFont('Arial', 'B', 8);
-            // $this->pdf->SetXY(35.5,40.6);
-            // $this->pdf->Cell(35, 9, strtoupper($card->number), 0);
-            // // Valido desde
-            // $this->pdf->SetFont('Arial', '', 6);
-            // $this->pdf->SetXY(39,47);
-            // $this->pdf->Cell(35, 8, date('d/m/Y', strtotime($card->datetime)), 0);
-
+                $this->card($this->pdf, $data[$i],$x,$y);
+                // $this->pdf->SetXY(32,21.5);
+                // $this->pdf->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/template_card/'.$template,0,0, 90,60);
+                // $this->pdf->Cell(35, 8, strtoupper($card->team_name), 0);  
+            }             
             $this->pdf->output();
         }
     }
+    private function card($obj, $data, $x, $y){
+        // Obtenemos los datos para el carnet
+        list($season_id, $team_id, $player_id) = explode('&', $data);
+        $card = $this->card_model->find_data_card($team_id,$player_id,$season_id);
+        switch ($card->category) {
+            case 1: // masculino
+                if (in_array($card->type_player, array(1, 2,4,6,8,10))) {
+                    $template = 'masculino-residente.png';
+                } else {
+                    $template = 'masculino-libre.png';
+                }
+                break;
+            case 2: // femenino
+                if (in_array($card->type_player, array(1, 3, 5,7,9,10))) {
+                    $template = 'femenino-residente.png';
+                } else {
+                    $template = 'femenino-libre.png';
+                }
+                break;
+            case 3: // standar masculino
+                if (in_array($card->type_player, array(1, 2,4,6,8,10))) {
+                    $template = 'masculino-residente-standar.png';
+                } else {
+                    $template = 'masculino-libre-standar.png';
+                }
+                break;
+            default: // standar femenino
+                // code...
+                break;
+        }
+        
+        $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/template_card/'.$template,$x+0,$y+0, 90,60);
+        $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/photos/shields/'.$card->emblem,$x+40,$y+1, 17,17);
+        $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/qr.png',$x+70,$y+0, 20,20);
+        if (!empty($card->photo)) {
+            $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/uploads/photos/'.$card->photo,$x+0,$y+24.7, 23.3,23.3);
+        }        
+        //$obj->SetAutoPageBreak(true, 0);
 
-    private function card($team_id, $player_id, $season_id){
+        $obj->SetFont('Arial', 'B', 8);
+        // Calculo edad
+        if (in_array($card->category, array(3,4))) {
+            if (isset($card->birth) && !empty($card->birth)) {
+                $edad = edad($card->birth);                
+                if ($edad > 34) {     
+                    $obj->SetXY($x+9,$y+20);               
+                    $obj->Cell(6, 8, '> 35' , 0);
+                } else {
+                    $obj->SetXY($x+10,$y+20);
+                    $obj->Cell(6, 8, $edad , 0);
+                }
+            }
+            
+        }
+        $obj->SetFont('Arial', '', 6);
+        // Nombre del equipo
+        $obj->SetXY($x+32,$y+21.5);
+        $obj->Cell(35, 8, strtoupper($card->team_name), 0);
+        // Apellid
+        $obj->SetXY($x+34.2,$y+26.4);
+        $obj->Cell(35, 8, strtoupper($card->last_name), 0);
+        // Nombre
+        $obj->SetXY($x+34.3,$y+31.1);
+        $obj->Cell(35, 8, strtoupper(utf8_decode($card->first_name)), 0);
+        // Tipo jugador
+        $obj->SetXY($x+41,$y+36.5);
+        $obj->Cell(35, 8, strtoupper(type_player()[$card->type_player]), 0);
+        // N° carnet
+        $obj->SetFont('Arial', 'B', 8);
+        $obj->SetXY($x+35.5,$y+40.6);
+        $obj->Cell(35, 9, strtoupper($card->number), 0);
+        // Valido desde
+        $obj->SetFont('Arial', '', 6);
+        $obj->SetXY($x+39,$y+47);
+        $obj->Cell(35, 8, date('d/m/Y', strtotime($card->datetime)), 0);
+    }
+
+    private function card_($team_id, $player_id, $season_id){
         $this->load->library('pdf');        
         // Obtenemos los datos para el carnet
         $card = $this->card_model->find_data_card($team_id,$player_id,$season_id);
