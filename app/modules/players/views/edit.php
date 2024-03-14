@@ -1,4 +1,3 @@
-<?php echo validation_errors(); ?>
 <div class="box">
     <div class="box-header">
         <h2 class="blue"><i class="fa-fw fa fa-edit"></i>

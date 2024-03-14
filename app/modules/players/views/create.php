@@ -1,81 +1,119 @@
 <div class="box">
     <div class="box-header">
-        <h2 class="blue"><i class="fa-fw fa fa-plus"></i>
-            <?= lang('create_bus'); ?>
+        <h2 class="blue"><i class="fa-fw fa fa-edit"></i> Nuevo jugador
         </h2>
     </div>
     <?php
     $attrib = ['data-toggle' => 'validator', 'role' => 'form'];
-    echo form_open($this->uri->uri_string(), $attrib)
-        ?>
+    echo form_open($this->uri->uri_string(), $attrib);
+    ?>
     <div class="box-content">
         <div class="row">
             <div class="col-lg-12">
                 <p class="introtext">
-                    <?php echo lang('info_create'); ?>
+                    <?php echo lang('info_edit'); ?>
                 </p>
-                <div class="row">
-                    <div class="col-md-3">
-                        <?php
-                        echo co_form_input(
-                            array(
-                                'name' => 'name',
-                                'class' => 'form-control',
-                                'required' => 'required'
-                            ),
-                            set_value('name'),
-                            lang('lbl_name')
-                        );
-                        ?>
-                    </div>
-                    <div class="col-md-3">
-                        <?php
-                        echo co_form_input(
-                            array(
-                                'name' => 'registration',
-                                'class' => 'form-control',
-                                'required' => 'required'
-                            ),
-                            set_value('registration'),
-                            lang('lbl_registration')
-                        );
-                        ?>
-                    </div>
-                    <!-- Modelo -->
-                    <div class="col-md-3">
-                        <?php
-                        echo co_form_input(
-                            array(
-                                'name' => 'model',
-                                'class' => 'form-control',
-                                'required' => 'required'
-                            ),
-                            set_value('model'),
-                            lang('lbl_model')
-                        );
-                        ?>
-                    </div>
-                    <div class="col-md-3">
-                        <?php
-                        echo co_form_dropdown(
-                            array(
-                                'name' => 'status',
-                                'class' => 'form-control'
-                            ),
-                            status_bus(),
-                            set_value('status', 'T'),
-                            lang('status')
-                        );
-                        ?>
-                    </div>
-                </div>
+                <div role="tabpanel">
+                    <ul class="nav nav-tabs">
+                        <li role="presentation" class="active">
+                            <a href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab"><?= lang('tab-1') ?></a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab"><?= lang('tab-2') ?></a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="tab-1">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <?php 
+                                    echo co_form_input(
+                                        array(
+                                            'name' => 'first_name',
+                                            'id' => 'last_name',
+                                            'class' => 'form-control'
+                                        ),
+                                        set_value('first_name'),
+                                        lang('lbl_first_name')
+                                    );
 
+                                    echo co_form_input(
+                                        array(
+                                            'name' => 'last_name',
+                                            'id' => 'las_name',
+                                            'class' => 'form-control'
+                                        ),
+                                        set_value('last_name'),
+                                        lang('lbl_last_name')
+                                    );
+                                    echo co_form_input(
+                                        array(
+                                            'name' => 'dni',
+                                            'id' => 'las_name',
+                                            'class' => 'form-control'
+                                        ),
+                                        set_value('dni'),
+                                        lang('lbl_dni')
+                                    );
+                                    echo co_form_input(
+                                        array(
+                                            'name' => 'birth',
+                                            'id' => 'las_name',
+                                            'class' => 'form-control date'
+                                        ),
+                                        set_value('birth'),
+                                        lang('lbl_birth')
+                                    )
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tab-2">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <?php 
+                                    echo co_form_dropdown(
+                                        array(
+                                            'name' => 'season_id',
+                                            'id' => 'season_id',
+                                            'class' => 'form-control'
+                                        ),
+                                        $seasons,
+                                        set_value('season_id'),
+                                        'Seleccione la temporada'
+                                    );
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
             </div>
         </div>
     </div>
     <div class="box-footer">
-        <?php echo form_submit('save', $this->lang->line('save'), 'class="btn btn-primary"'); ?>
-        <?php echo anchor(site_url('buses'), lang('cancel'), array('class' => 'btn btn-link')); ?>
+        <?php 
+        echo form_button(
+            array(
+                'name' => 'save',
+                'id' => 'save',
+                'type' => 'submit',
+                'class' => 'btn btn-primary',
+                'content' => '<i class="fa fa-edit"></i> '.$this->lang->line('save')
+            )
+        );
+        echo form_button(
+            array(
+                'name' => 'saveandnew',
+                'id' => 'saveandnew',
+                'type' => 'submit',
+                'class' => 'btn btn-default',
+                'content' => '<i class="fa fa-chevron-down"></i> '.$this->lang->line('saveandnew')
+            )
+        ); 
+        echo anchor(site_url('players'), '<i class="fa fa-remove"></i> '.lang('close'), array('class' => 'btn btn-default')); 
+        ?>
     </div>
     <?= form_close(); ?>
 </div>

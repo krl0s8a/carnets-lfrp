@@ -34,7 +34,7 @@ $uri2 = $this->uri->segment(2);
         <!-- Jugadores -->
         <li id="submenu_customers" class="<?php echo class_exists('players') ? 'active' : ''; ?>">
             <a class="submenu" href="<?= site_url('players'); ?>">
-                <i class="fa fa-users"></i><span class="text">
+                <i class="fa fa-user"></i><span class="text">
                     Jugadores
                 </span>
             </a>

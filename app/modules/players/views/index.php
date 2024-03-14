@@ -1,9 +1,9 @@
 <?php $num_columns = 7; ?>
-<?php echo form_open('players/playersActions', array('id' => 'action-form')); ?>
+<?php echo form_open('players/actions', array('id' => 'action-form')); ?>
 <div class="box">
     <div class="box-header">
-        <h2 class="blue"><i class="fa-fw fa fa-bus"></i>
-            <?= lang('list_buses'); ?>
+        <h2 class="blue"><i class="fa-fw fa fa-users"></i>
+            <?= lang('index_player'); ?>
         </h2>
         <div class="box-icon">
             <ul class="btn-tasks">
@@ -13,7 +13,7 @@
                     <ul class="dropdown-menu pull-right tasks-menus" role="menu" aria-labelledby="dLabel">
                         <li>
                             <a href="<?= site_url('players/create'); ?>"><i class="fa fa-plus-circle"></i>
-                                <?= lang('op_create_bus'); ?>
+                                <?= lang('op_create_player'); ?>
                             </a>
                         </li>
                         <li>
@@ -23,10 +23,10 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#" class="bpo" title="<?= $this->lang->line('op_delete_bus') ?>"
+                            <a href="#" class="bpo" title="<?= $this->lang->line('op_delete_player') ?>"
                                 data-content="<p><?= lang('r_u_sure') ?></p><button type='button' class='btn btn-danger' id='delete' data-action='delete'><?= lang('i_m_sure') ?></a> <button class='btn bpo-close'><?= lang('no') ?></button>"
                                 data-html="true" data-placement="left"><i class="fa fa-trash-o"></i>
-                                <?= lang('op_delete_bus') ?>
+                                <?= lang('op_delete_player') ?>
                             </a>
                         </li>
                     </ul>
@@ -38,20 +38,22 @@
         <div class="row">
             <div class="col-lg-12">
                 <p class="introtext">
-                    <?php echo lang('info_buses'); ?>
+                    <?php echo lang('info_players'); ?>
                 </p>
                 <div class="table-responsive">
                     <table id="player_table" cellpadding="0" cellspacing="0" border="0"
                         class="table table-bordered table-condensed table-hover table-striped">
                         <thead>
                             <tr>
-                                <th style="min-width:30px; width: 30px; text-align: center;">
+                                <th style="max-width: 30px; text-align: center;">
                                     <input class="checkbox checkth" type="checkbox" name="check" />
                                 </th>
-                                <th><?= lang('lbl_last_name') ?></th>
-                                <th><?= lang('lbl_first_name') ?></th>
-                                <th><?= lang('lbl_dni') ?></th>
-                                <th><?= lang('lbl_birth') ?></th>
+                                <th style="text-align: center; width: 10%;"><?= lang('lbl_photo') ?></th>
+                                <th style="text-align: left; width: 20%;"><?= lang('lbl_last_name') ?></th>
+                                <th style="text-align: left; width: 20%;"><?= lang('lbl_first_name') ?></th>
+                                <th style="text-align: left; width: 10%;"><?= lang('lbl_dni') ?></th>
+                                <th style="text-align: center; width: 10%;"><?= lang('lbl_birth_short') ?></th>
+                                <th style="text-align: left; width: 20%;"><?= lang('lbl_team') ?></th>
                                 <th style="width: 8%">
                                     <?php echo lang('actions'); ?>
                                 </th>
@@ -59,7 +61,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td colspan="6" class="dataTables_empty">
+                                <td colspan="8" class="dataTables_empty">
                                     <?= lang('loading_data_from_server') ?>
                                 </td>
                             </tr>

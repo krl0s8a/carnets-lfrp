@@ -16,7 +16,7 @@ class Teams extends MY_Controller {
     }
 
     public function index() {
-        Template::set('toolbar_title', lang('mngt_personal'));
+        Template::set('toolbar_title', lang('index_teams'));
         Template::render();
     }
 
@@ -26,105 +26,45 @@ class Teams extends MY_Controller {
             if ($id = $this->save('insert')) {
                 log_activity(
                     $this->current_user->id,
-                    lang('activity_create_personal') . ' : ' . "$id",
-                    'Personal'
+                    lang('act_create_team') . ' : ' . "$id",
+                    'Equipos'
                 );
-                Template::set_message(lang('personal_created_success'), 'success');
+                Template::set_message(lang('team_created_success'), 'success');
                 Template::redirect('teams/edit/' . $id);
             } else {
-                Template::set_message(lang('personal_created_failure'), 'danger');
+                Template::set_message(lang('team_created_failure'), 'danger');
             }
         }
-        $this->load->model('state_model');
-        Template::set('states', $this->state_model->getStates());
-        // localidades por provincia
-        $this->load->model('cities/city_model');
-        Template::set('cities', $this->city_model->getCitiesByState(2));
-        Template::set('toolbar_title', lang('create_personal'));
+
+        Template::set('toolbar_title', lang('create_team'));
         Template::render();
     }
 
     public function edit() {
-
+        
         $id = (int) $this->uri->segment(3);
         if (empty($id)) {
             Template::set_message(lang('invalid_id'), 'danger');
             redirect('teams');
         }
 
-        if (isset($_POST['update_personal'])) {
-            if ($this->savePersonal($id)) {
+        if (isset($_POST['save']) || isset($_POST['saveandclose'])) {
+            if ($this->save('update', $id)) {
                 log_activity(
                     $this->current_user->id,
-                    lang('activity_update_personal') . ' : ' . "$id",
-                    'teams'
+                    lang('act_update_team') . ' : ' . "$id",
+                    'Equipos'
                 );
-                Template::set_message(lang('personal_edit_success'), 'success');
+                Template::set_message(lang('team_edit_success'), 'success');
+                if (isset($_POST['saveandclose'])) {
+                    Template::redirect('teams');
+                }                
             } else {
-                Template::set_message(lang('personal_edit_failure'), 'danger');
+                Template::set_message(lang('team_edit_failure'), 'danger');
             }
-        } elseif (isset($_POST['update_laboral'])) {
-            if ($this->saveLaboral($id)) {
-                log_activity(
-                    $this->current_user->id,
-                    lang('activity_update_personal') . ' : ' . "$id",
-                    'teams'
-                );
-                Template::set_message(lang('laboral_edit_success'), 'success');
-            } else {
-                Template::set_message(lang('laboral_edit_failure'), 'danger');
-            }
-        } elseif (isset($_POST['update_contact'])) {
-            if ($this->saveContact($id)) {
-                log_activity(
-                    $this->current_user->id,
-                    lang('activity_update_personal') . ' : ' . "$id",
-                    'teams'
-                );
-                Template::set_message(lang('contact_edit_success'), 'success');
-            } else {
-                Template::set_message(lang('contact_edit_failure'), 'danger');
-            }
-        } elseif (isset($_POST['update_avatar'])) {
-            if ($this->saveAvatar($id)) {
-                log_activity(
-                    $this->current_user->id,
-                    lang('activity_update_personal') . ' : ' . "$id",
-                    'teams'
-                );
-                Template::set_message(lang('avatar_edit_success'), 'success');
-            } else {
-                Template::set_message(lang('avatar_edit_failure'), 'danger');
-            }
-        } elseif (isset($_POST['update_doc'])) {
-            if ($this->saveDoc($id)) {
-                log_activity(
-                    $this->current_user->id,
-                    lang('activity_update_personal') . ' : ' . "$id",
-                    'Personal'
-                );
-                Template::set_message(lang('doc_edit_success'), 'success');
-            } else {
-                Template::set_message(lang('doc_edit_failure'), 'danger');
-            }
-        }
-
-        // echo '<pre>';
-        // print_r($this->personal_model->find($id));
-        // echo '</pre>';
-        // exit;
-
-        $this->load->model('personal_doc_model');
-        Template::set('personal_doc', array_by_key_value('doc_id', 'due_date', $this->personal_doc_model->find_all_by('personal_id', $id)));
-
-        Template::set('doc', $this->config->item('doc'));
-        $this->load->model('state_model');
-        Template::set('states', $this->state_model->getStates());
-        // localidades por provincia
-        $this->load->model('cities/city_model');
-        Template::set('cities', $this->city_model->getCitiesByState(2));
-        Template::set('toolbar_title', lang('edit_personal'));
-        Template::set('teams', $this->personal_model->find($id));
+        } 
+      
+        Template::set('team', $this->team_model->find($id));
         Template::render();
     }
 
@@ -214,39 +154,66 @@ class Teams extends MY_Controller {
 
     private function save($type = 'insert', $id = 0) {
 
-        $this->form_validation->set_rules('last_name', lang('last_name'), 'trim|required');
-        $this->form_validation->set_rules('first_name', lang('first_name'), 'trim|required');
-        $this->form_validation->set_rules('cuil', lang('cuil'), 'trim|required');
-        $this->form_validation->set_rules('work_file', lang('work_file'), 'trim|required|numeric');
-        $this->form_validation->set_rules('email', lang('email'), 'trim|required|valid_email');
-
+        $this->form_validation->set_rules('t_name', lang('lbl_t_name'), 'trim|required');
+        $this->form_validation->set_rules('short_name', lang('lbl_short_name'), 'trim');
+        $this->form_validation->set_rules('t_descr', lang('lbl_t_descr'), 'trim');
+        $this->form_validation->set_rules('t_city', lang('lbl_t_city'), 'trim');
+        
         if ($this->form_validation->run() === false) {
             return false;
         }
 
-        $data = $this->personal_model->prep_data($_POST);
-
+        
+        $data = $this->team_model->prep_data($_POST);
+        if (isset($_FILES['t_emblem']['name']) && !empty($_FILES['t_emblem']['name'])) {
+            $photo = $this->store_photo();
+            if (isset($photo['file_name'])) {
+                $data['t_emblem'] = $photo['file_name'];
+            } else {
+                $data['t_emblem'] = '';
+            }
+        } else {
+            $data['t_emblem'] = '';
+        }
+        
+        //echo "<pre>"; print_r($data); echo "</pre>"; exit;
         if ($type == 'insert') {
-            $id = $this->personal_model->insert($data);
+            $id = $this->team_model->insert($data);
             if (is_numeric($id)) {
                 $result = $id;
             }
         } else {
-            $result = $this->personal_model->update($id, $data);
+            $result = $this->team_model->update($id, $data);
         }
         return $result;
     }
 
+    private function store_photo() {
+        $config['upload_path'] = $_SERVER['DOCUMENT_ROOT'].'/assets/photos/shields/';
+        $config['allowed_types'] = 'gif|jpg|png';
+        $config['max_size'] = 2000;
+        $config['max_width'] = 1500;
+        $config['max_height'] = 1500;
+        $config['file_name'] = "bl" . uniqid();
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('t_emblem')) {
+            return $this->upload->display_errors();
+        } else {
+            return $this->upload->data();
+        }
+    }
     // Methods Ajax
     function get_teams() {
         if (!$this->input->is_ajax_request()) {
             redirect('404', 'refresh');
         } else {
-            $edit_user = '<a href="' . site_url('teams/edit/$1') . '"><i class="fa fa-edit"></i> ' . lang('edit_personal') . '</a>';
-            $delete_link = "<a href='#' class='tip po' title='<b>" . $this->lang->line('delete_personal') . "</b>' data-content=\"<p>"
+            $edit_user = '<a href="' . site_url('teams/edit/$1') . '"><i class="fa fa-edit"></i> ' . lang('edit_team') . '</a>';
+            $delete_link = "<a href='#' class='tip po' title='<b>" . $this->lang->line('delete_team') . "</b>' data-content=\"<p>"
                 . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete-user' id='a__$1' href='" . site_url('teams/delete/$1') . "'>"
                 . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i> "
-                . lang('delete_personal') . '</a>';
+                . lang('delete_team') . '</a>';
 
             $action = '<div class="text-center"><div class="btn-group text-left">'
                 . '<button type="button" class="btn btn-default btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">'
@@ -271,6 +238,3 @@ class Teams extends MY_Controller {
     }
 
 }
-
-/* End of file Rrhh.php */
-/* Location: .//D/www/futuro-srl/app/modules/rrhh/controllers/Rrhh.php */

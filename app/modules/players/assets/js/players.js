@@ -15,7 +15,7 @@ function bus_status(x) {
 }
 
 oTable = $('#player_table').dataTable({
-    "aaSorting": [[1, "asc"]],
+    "aaSorting": [[2, "asc"]],
     "aLengthMenu": [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
     "iDisplayLength": oLengthMenu,
     'bProcessing': true,
@@ -34,8 +34,8 @@ oTable = $('#player_table').dataTable({
     "aoColumns": [{
         "bSortable": false,
         "mRender": checkbox
-    }, null, null, null, null, { "bSortable": false }]
-}).on('click', '.po-delete-bus', function (e) {
+    }, null, null, null, null, {"mRender" : fsd}, null, { "bSortable": false }]
+}).on('click', '.po-delete-player', function (e) {
     e.preventDefault();
     $('.po').popover('hide');
     var link = $(this).attr('href');

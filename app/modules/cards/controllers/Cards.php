@@ -365,7 +365,9 @@ class Cards extends MY_Controller {
             } else {
                 $this->card_model->insert($data);
                 $result = 1;
-            }            
+            }      
+            // Actualizar la foto en los datos del jugador
+            $this->player_model->update($_POST['player'],array('photo' => $data['photo']));
         } else {
             $result = $this->card_model->update($id, $data);
         }

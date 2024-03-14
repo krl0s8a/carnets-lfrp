@@ -17,30 +17,36 @@ class Players  extends MY_Controller {
     public function index() {
         //$this->auth->restrict($this->busManage);
     
-        Template::set('toolbar_title', lang('management_bus'));
+        Template::set('toolbar_title', lang('index_player'));
         Template::render();
     }
 
-    // public function create() {
-    //     $this->auth->restrict($this->busAdd);
-    //     if (isset($_POST['save'])) {
-    //         if ($id = $this->save('insert')) {
-    //             log_activity(
-    //                 $this->current_user->id,
-    //                 lang('act_create_bus') . ' : ' . $id,
-    //                 'buses'
-    //             );
-    //             Template::set_message(lang('bus_created_success'), 'success');
-    //             Template::redirect('buses');
-    //         } else {
-    //             Template::set_message(lang('bus_created_failure'), 'danger');
-    //         }
-    //     }
-    //     Template::set('toolbar_title', lang('create_bus'));
-    //     Template::render();
-    // }
     public function create(){
-        echo $this->load->view('players/create_modal');
+        if ($this->input->is_ajax_request()) {
+            echo $this->load->view('players/create_modal');
+        } else {
+            if (isset($_POST['save']) || isset($_POST['saveandnew'])) {
+                if ($id = $this->save('insert')) {
+                    log_activity(
+                        $this->current_user->id,
+                        lang('act_create_player') . ' : ' . $id,
+                        'Jugadores'
+                    );
+                    Template::set_message(lang('player_created_success'), 'success');
+                    if (isset($_POST['saveandnew'])) {
+                        Template::redirect('players/create');
+                    } else {
+                        Template::redirect('players');
+                    }
+                    
+                } else {
+                    Template::set_message(lang('player_created_failure'), 'danger');
+                }
+            }
+            Template::set('seasons',array_by_key_value('id', 'name', $this->season_model->find_all_by_tournament(), 'No seleccionado'));
+            Template::set('toolbar_title', lang('create_player'));
+            Template::render();
+        }        
     }
 
     public function view($id = null){
@@ -115,23 +121,23 @@ class Players  extends MY_Controller {
     }
 
     public function delete($id = null) {
-        $this->auth->restrict($this->busDelete);
+        //$this->auth->restrict($this->busDelete);
         if ($this->input->get('id')) {
             $id = $this->input->get('id');
         }
 
-        if ($this->bus_model->delete($id)) {
+        if ($this->player_model->delete($id)) {
             log_activity(
                 $this->current_user->id,
-                lang('act_delete_bus') . ' : ' . $id,
-                'buses'
+                lang('action_delete_player') . ' : ' . $id,
+                'Jugadores'
             );
             header('Content-Type: application/json');
-            die(json_encode(['error' => 0, 'msg' => lang('bus_deleted_success')]));
+            die(json_encode(['error' => 0, 'msg' => lang('player_deleted_success')]));
             exit;
         }        
-        Template::set_message(lang('bus_deleted_success'), 'success');
-        Template::redirect('buses');
+        Template::set_message(lang('player_deleted_success'), 'success');
+        Template::redirect('players');
     }
     public function actions() {
 
@@ -140,21 +146,16 @@ class Players  extends MY_Controller {
         if ($this->form_validation->run() == true) {
             if (!empty($_POST['val'])) {
 
-                if ($this->input->post('form_action') == 'delete') {
-                    $qt = 0;
-                    $ids = '';
+                if ($this->input->post('form_action') == 'delete') {                
                     foreach ($_POST['val'] as $k => $v) {
-                        $this->bus_model->delete($v);
-                        $qt++;
-                        $ids .= $v . ',';
+                        $this->player_model->delete($v);
+                        log_activity(
+                            $this->current_user->id,
+                            lang('act_delete_player') . ' : ' . $v,
+                            'Jugadores'
+                        );
                     }
-                    log_activity(
-                        $this->current_user->id,
-                        lang('act_delete_bus_batch') . ' : ' . $qt . ' con id: ' . $ids,
-                        'buses'
-                    );
-                    Template::set_message(lang('bus_deleted_success'), 'success');
-
+                    Template::set_message(lang('players_deleted_success'), 'success');
                     redirect($_SERVER['HTTP_REFERER']);
                 }
                 // Exportar a excel
@@ -199,9 +200,16 @@ class Players  extends MY_Controller {
             redirect($_SERVER['HTTP_REFERER']);
         }
     }
-
     // Methods private
     private function save($type = 'insert', $id = 0) {
+        $this->form_validation->set_rules('last_name', lang('lbl_last_name'), 'required');
+        $this->form_validation->set_rules('first_name', lang('lbl_first_name'), 'required');
+        $this->form_validation->set_rules('dni', lang('lbl_dni'), 'required');
+        $this->form_validation->set_rules('birth', lang('lbl_birth'), 'required');
+        
+        if ($this->form_validation->run() === false) {
+            return false;
+        }
 
         $data = $this->player_model->prep_data($_POST);
         if ($type == 'insert') {
@@ -223,7 +231,7 @@ class Players  extends MY_Controller {
             $this->load->library('datatables');
             $edit_player = '<a href="' . site_url('players/edit/$1') . '"><i class="fa fa-edit"></i> ' . lang('action_edit_player') . '</a>';
             $delete_link = "<a href='#' class='tip po' title='<b>" . $this->lang->line('action_delete_player') . "</b>' data-content=\"<p>"
-                . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete-bus' id='a__$1' href='" . site_url('players/delete/$1') . "'>"
+                . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete-player' id='a__$1' href='" . site_url('players/delete/$1') . "'>"
                 . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i> "
                 . lang('action_delete_player') . '</a>';
             $action = '<div class="text-center"><div class="btn-group text-left">'
@@ -235,7 +243,7 @@ class Players  extends MY_Controller {
             $action .= '</ul></div></div>';
             $this->datatables->set_database('joomla');
             $this->datatables
-                ->select('t1.id as id, t1.last_name, t1.first_name, t1.dni, t1.birth')
+                ->select('t1.id as id, t1.photo, t1.last_name, t1.first_name, t1.dni, t1.birth, t1.shortname')
                 ->from('co_bl_players as t1')
                 //->edit_column('status', '$1__$2', 'status, id')
                 //->edit_column('name', '$1__$2', 'name, id')

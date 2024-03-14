@@ -36,7 +36,7 @@ class Team_model extends MY_Model {
     protected $date_format = 'datetime';
 
     /** @var bool Set the modified time automatically. */
-    protected $set_modified = true;
+    protected $set_modified = false;
 
     /** @var bool Skip the validation. */
     protected $skip_validation = false;

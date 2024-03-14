@@ -353,6 +353,7 @@ $lang['datatables_lang'] = [
 /// BUTTONS
 $lang['save'] = 'Guardar';
 $lang['saveandnew'] = 'Guardar y nuevo';
+$lang['saveandclose'] = 'Guardar y cerrar';
 $lang['print'] = 'IMPRIMIR';
 $lang['modify'] = 'MODIFICAR';
 $lang['cancel'] = 'CANCELAR';

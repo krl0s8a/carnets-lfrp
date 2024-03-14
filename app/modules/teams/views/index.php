@@ -2,7 +2,7 @@
 <div class="box">
     <div class="box-header">
         <h2 class="blue"><i class="fa-fw fa fa-users"></i>
-            <?= lang('title_list_personal'); ?>
+            <?= lang('index_teams'); ?>
         </h2>
         <div class="box-icon">
             <ul class="btn-tasks">
@@ -12,7 +12,7 @@
                     <ul class="dropdown-menu pull-right tasks-menus" role="menu" aria-labelledby="dLabel">
                         <li>
                             <a href="<?= site_url('teams/create'); ?>"><i class="fa fa-plus-circle"></i>
-                                <?= lang('add_personal'); ?>
+                                <?= lang('create_team'); ?>
                             </a>
                         </li>
                         <li>
@@ -22,10 +22,10 @@
                         </li>
                         <li class="divider"></li>
                         <li>
-                            <a href="#" class="bpo" title="<b><?= $this->lang->line('delete_personal') ?></b>"
+                            <a href="#" class="bpo" title="<b><?= $this->lang->line('delete_team') ?></b>"
                                 data-content="<p><?= lang('r_u_sure') ?></p><button type='button' class='btn btn-danger' id='delete' data-action='delete'><?= lang('i_m_sure') ?></a> <button class='btn bpo-close'><?= lang('no') ?></button>"
                                 data-html="true" data-placement="left"><i class="fa fa-trash-o"></i>
-                                <?= lang('delete_personal') ?>
+                                <?= lang('delete_team') ?>
                             </a>
                         </li>
                     </ul>
@@ -44,14 +44,14 @@
                         class="table table-bordered table-condensed table-hover table-striped">
                         <thead>
                             <tr>
-                                <th style="min-width:30px; text-align: center;">
+                                <th style="min-width:30px; max-width: 30px; text-align: center;">
                                     <input class="checkbox checkth" type="checkbox" name="check" />
                                 </th>
-                                <th style="width: 12%">
+                                <th style="width: 40%; text-align: left;">
                                     Equipo
                                 </th>
-                                <th>Categoria</th>
-                                <th style="width: 17%">
+                                <th style="width: 20%; text-align: left;">Categoria</th>
+                                <th style="width: 30%; text-align: left;">
                                     Lugar de representacion
                                 </th>
                                 <th>Acciones</th>

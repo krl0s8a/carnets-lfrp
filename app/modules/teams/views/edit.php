@@ -1,125 +1,133 @@
-<?php defined('BASEPATH') or exit('No direct script access allowed'); ?>
-<div class="row">
-    <div class="col-sm-2">
+<div class="box">
+    <div class="box-header">
+        <h2 class="blue"><i class="fa-fw fa fa-edit"></i> <?= lang('edit_team') ?>
+        </h2>
+    </div>
+    <?php
+    $attrib = ['data-toggle' => 'validator', 'role' => 'form'];
+    echo form_open_multipart($this->uri->uri_string(), $attrib);
+    echo form_hidden('id', isset($team) ? $team->id : '');
+    ?>    
+    <div class="box-content">
         <div class="row">
-            <div class="col-sm-12 text-center">
-                <div style="max-width:200px; margin: 0 auto;">
-                    <?=
-                        $personal->avatar ? '<img alt="" src="' . base_url() . 'assets/uploads/avatars/thumbs/' . $personal->avatar . '" class="avatar">' :
-                        '<img alt="" src="' . base_url() . 'assets/images/' . $personal->gender . '.png" class="avatar">';
-                    ?>
-                </div>
-                <h4>
-                    <?= lang('age'); ?>
-                </h4>
-                <p><i class="fa fa-calendar"></i>
-                    <?= age($personal->birth); ?>
+            <div class="col-lg-12">
+                <p class="introtext">
+                    <?php echo lang('info_edit'); ?>
                 </p>
+                <div role="tabpanel">
+                    <ul class="nav nav-tabs">
+                        <li role="presentation" class="active">
+                            <a href="#tab-1" aria-controls="tab-1" role="tab" data-toggle="tab"><?= lang('tab-1') ?></a>
+                        </li>
+                        <li role="presentation">
+                            <a href="#tab-2" aria-controls="tab-2" role="tab" data-toggle="tab"><?= lang('tab-2') ?></a>
+                        </li>
+                    </ul>
+                    <!-- Tab panes -->
+                    <div class="tab-content">
+                        <div role="tabpanel" class="tab-pane active" id="tab-1">
+                            <div class="row">
+                                <div class="col-md-2">
+                                    <?php
+                                    $url = empty($team->t_emblem) ? base_url('assets/images/no-image.png') :
+                                    base_url('assets/photos/shields/').$team->t_emblem 
+                                    ?>
+                                    <img width="100%" src="<?= $url ?>" alt="<?= $team->t_name ?>" class="img-rounded">
+                                </div>
+                                <div class="col-md-3">
+                                    <?php 
+                                    echo co_form_input(
+                                        array(
+                                            'name' => 't_name',
+                                            'id' => 't_name',
+                                            'class' => 'form-control'
+                                        ),
+                                        set_value('t_name', $team->t_name),
+                                        lang('lbl_t_name')
+                                    );
+
+                                    echo co_form_input(
+                                        array(
+                                            'name' => 'short_name',
+                                            'id' => 'short_name',
+                                            'class' => 'form-control'
+                                        ),
+                                        set_value('short_name',$team->short_name),
+                                        lang('lbl_short_name')
+                                    );
+                                    echo co_form_input(
+                                        array(
+                                            'name' => 't_city',
+                                            'id' => 't_city',
+                                            'class' => 'form-control'
+                                        ),
+                                        set_value('t_city', $team->t_city),
+                                        lang('lbl_t_city')
+                                    );
+                                    echo co_form_input(array(
+                                        'name'     => 't_emblem',
+                                        'id'       => 't_emblem',
+                                        'type' => 'file',
+                                        'class'    => 'form-control file',
+                                        'data-browse-label' => 'Adjuntar',
+                                        'data-show-upload' => false,
+                                        'data-show-preview' => false
+                                    ), '', lang('lbl_t_emblem_change'));
+                                    ?>
+                                </div>
+                                <div class="col-md-7">
+                                    <div class="form-group">
+                                        <label for="t_descr"><?= lang('lbl_t_descr') ?></label>
+                                        <textarea class="form-control" name="t_descr" id="t_descr"><?= set_value('t_descr',$team->t_descr) ?></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div role="tabpanel" class="tab-pane" id="tab-2">
+                            <div class="row">
+                                <div class="col-md-3">
+                                    <?php 
+                                    echo co_form_dropdown(
+                                        array(
+                                            'name' => 'season_id',
+                                            'id' => 'season_id',
+                                            'class' => 'form-control'
+                                        ),
+                                        array(),
+                                        set_value('season_id'),
+                                        'Seleccione la temporada'
+                                    );
+                                    ?>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>                
             </div>
         </div>
     </div>
-    <div class="col-sm-10">
-        <ul id="myTab" class="nav nav-tabs">
-            <li class=""><a href="#personal" class="tab-grey">
-                    <?= lang('tab_personal') ?>
-                </a></li>
-            <li class=""><a href="#laboral" class="tab-grey">
-                    <?= lang('tab_laboral') ?>
-                </a></li>
-            <li class=""><a href="#contact" class="tab-grey">
-                    <?= lang('tab_contact') ?>
-                </a></li>
-            <li class=""><a href="#doc" class="tab-grey">
-                    <?= lang('tab_doc') ?>
-                </a></li>
-            <li class="" style="display:none;"><a href="#avatar" class="tab-grey">
-                    <?= lang('tab_photo') ?>
-                </a></li>
-        </ul>
-        <div class="tab-content">
-            <div id="personal" class="tab-pane fade in">
-                <div class="box">
-                    <div class="box-header">
-                        <h2 class="blue"><i class="fa-fw fa fa-edit nb"></i>
-                            <?= lang('lgd_personal'); ?>
-                        </h2>
-                    </div>
-                    <?php
-                    $attrib = ['data-toggle' => 'validator', 'role' => 'form'];
-                    echo form_open($this->uri->uri_string() . '#personal', $attrib);
-                    ?>
-                    <div class="box-content">
-                        <?php $this->load->view('personal/_personal'); ?>
-                    </div>
-                    <?php echo form_close(); ?>
-                </div>
-            </div>
-            <div id="laboral" class="tab-pane fade">
-                <div class="box">
-                    <div class="box-header">
-                        <h2 class="blue"><i class="fa-fw fa fa-key nb"></i>
-                            <?= lang('lgd_laboral'); ?>
-                        </h2>
-                    </div>
-                    <?php
-                    $attrib = ['data-toggle' => 'validator', 'role' => 'form'];
-                    echo form_open($this->uri->uri_string() . '#laboral', $attrib);
-                    ?>
-                    <div class="box-content">
-                        <?php $this->load->view('personal/_laboral'); ?>
-                    </div>
-                    <?php echo form_close(); ?>
-                </div>
-            </div>
-            <div id="contact" class="tab-pane fade">
-                <div class="box">
-                    <div class="box-header">
-                        <h2 class="blue"><i class="fa-fw fa fa-key nb"></i>
-                            <?= lang('lgd_contact'); ?>
-                        </h2>
-                    </div>
-                    <?php
-                    $attrib = ['data-toggle' => 'validator', 'role' => 'form'];
-                    echo form_open($this->uri->uri_string() . '#contact', $attrib);
-                    ?>
-                    <div class="box-content">
-                        <?php $this->load->view('personal/_contact'); ?>
-                    </div>
-                    <?php echo form_close(); ?>
-                </div>
-            </div>
-            <div id="doc" class="tab-pane fade">
-                <div class="box">
-                    <div class="box-header">
-                        <h2 class="blue"><i class="fa-fw fa fa-key nb"></i>
-                            <?= lang('lgd_doc'); ?>
-                        </h2>
-                    </div>
-                    <?php
-                    $attrib = ['data-toggle' => 'validator', 'role' => 'form'];
-                    echo form_open($this->uri->uri_string() . '#doc', $attrib);
-                    ?>
-                    <div class="box-content">
-                        <?php $this->load->view('personal/_doc'); ?>
-                    </div>
-                    <?php echo form_close(); ?>
-                </div>
-            </div>
-            <div id="avatar" class="tab-pane fade">
-                <div class="box">
-                    <div class="box-header">
-                        <h2 class="blue"><i class="fa-fw fa fa-file-picture-o nb"></i>
-                            <?= lang('change_avatar'); ?>
-                        </h2>
-                    </div>
-                    <?php echo form_open_multipart($this->uri->uri_string() . '#avatar'); ?>
-                    <div class="box-content">
-                        <?php $this->load->view('personal/_photo'); ?>
-                    </div>
-                    <?php echo form_close(); ?>
-                </div>
-            </div>
-        </div>
-        <?= form_close(); ?>
+    <div class="box-footer">
+        <?php 
+        echo form_button(
+            array(
+                'name' => 'save',
+                'id' => 'save',
+                'type' => 'submit',
+                'class' => 'btn btn-primary',
+                'content' => '<i class="fa fa-edit"></i> '.$this->lang->line('save')
+            )
+        );
+        echo form_button(
+            array(
+                'name' => 'saveandclose',
+                'id' => 'saveandclose',
+                'type' => 'submit',
+                'class' => 'btn btn-default',
+                'content' => '<i class="fa fa-chevron-down"></i> '.$this->lang->line('saveandclose')
+            )
+        ); 
+        echo anchor(site_url('teams'), '<i class="fa fa-remove"></i> '.lang('close'), array('class' => 'btn btn-default')); 
+        ?>
     </div>
+    <?= form_close(); ?>
 </div>
