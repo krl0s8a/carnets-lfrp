@@ -32,7 +32,7 @@
                                             </a>
                                         </div>
                                         <div class="input-group-addon no-print" style="padding: 2px 5px;">
-                                            <a href="<?= site_url('players/create'); ?>" id="add-player"
+                                            <a href="<?= site_url('players/create'); ?>" id="add-playerr"
                                                 class="external" data-toggle="modal" data-target="#myModal">
                                                 <i class="fa fa-2x fa-plus-circle" id="addIcon"></i>
                                             </a>

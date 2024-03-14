@@ -12,6 +12,7 @@
         <?php $attrib = ['data-toggle' => 'validator', 'role' => 'form', 'id' => 'frm-player'] ?>
         <?php echo form_open('#', $attrib); ?>
         <div class="modal-body">
+            <div class="alerts-modal"></div>
             <input type="hidden" name="id" id="id" value="<?= $player->id; ?>">
             <?php 
             echo co_form_input(

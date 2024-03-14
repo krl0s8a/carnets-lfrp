@@ -44,29 +44,32 @@
                                 <th style="min-width:30px; width: 30px; text-align: center;">
                                     <input class="checkbox checkth" type="checkbox" name="check" />
                                 </th>
-                                <th style="width: 23%; text-align: left;">
+                                <th style="width: 21%; text-align: left;">
                                     <?php echo lang('lbl_player'); ?>
                                 </th>
-                                <th style="width: 23%; text-align: left;">
+                                <th style="width: 21%; text-align: left;">
                                     <?php echo lang('lbl_team'); ?>
                                 </th>
-                                <th style="width: 23%; text-align: left;">
+                                <th style="width: 21%; text-align: left;">
                                     <?php echo lang('lbl_season'); ?>
                                 </th>
-                                <th style="width: 10%; text-align: left;">
+                                <th style="width: 8%; text-align: left;">
                                     <?php echo lang('lbl_number'); ?>
                                 </th>
-                                <th style="width: 16%; text-align: left;">
+                                <th style="width: 12%; text-align: left;">
                                     <?php echo lang('lbl_type_player'); ?>
                                 </th>
+                                <th style="width: 13%; text-align: center;">
+                                    <?php echo lang('lbl_datetime'); ?>
+                                </th>
                                 <th>
-                                    <?php echo lang('actions'); ?>
+                                    <?php echo lang('status'); ?>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td colspan="7" class="dataTables_empty">
+                                <td colspan="8" class="dataTables_empty">
                                     <?= lang('loading_data_from_server') ?>
                                 </td>
                             </tr>

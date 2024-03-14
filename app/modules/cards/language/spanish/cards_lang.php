@@ -15,6 +15,7 @@ $lang['lbl_season'] = 'Torneo';
 $lang['lbl_number'] = 'N° Carnet';
 $lang['lbl_type_player'] = 'Tipo jugador/a';
 $lang['lbl_date'] = 'Fecha';
+$lang['lbl_datetime'] = 'Fecha/Hora confección';
 $lang['lbl_category'] = 'Categoria';
 
 // Options
@@ -27,17 +28,17 @@ $lang['info_create'] = 'El nombre de la localidad debe ser único';
 $lang['info_edit'] = 'El nombre de la localidad debe ser único';
 
 // query
-$lang['card_created_success'] = 'Correcto.';
-$lang['card_created_failure'] = 'Incorrecto.';
+$lang['card_created_success'] = 'Carnet creado.';
+$lang['card_created_failure'] = 'Error al crear el carnet.';
 
 // Buttons
 $lang['btn_edit'] = 'Finalizar edición';
 $lang['btn_add'] = 'Agregar';
 
 // Activities
-$lang['act_create_city'] = 'Creado regisro con ID';
-$lang['act_update_city'] = 'Actualizado registro con ID';
-$lang['act_delete_city'] = 'Eliminado registro con ID';
+$lang['act_create_card'] = 'Creado regisro con ID';
+$lang['act_update_card'] = 'Actualizado registro con ID';
+$lang['act_delete_card'] = 'Eliminado registro con ID';
 
 // Titles
 $lang['title_new_city'] = 'Agregar nueva localidad';

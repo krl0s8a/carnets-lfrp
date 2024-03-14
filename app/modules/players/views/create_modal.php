@@ -5,11 +5,12 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true">
                 <i class="fa fa-2x">&times;</i>
             </button>
-            <h4 class="modal-title" id="myModalLabel">Nuevo jugador</h4>
+            <h4 class="modal-title" id="myModalLabel">Nuevo jugador/a</h4>
         </div>
         <?php $attrib = ['data-toggle' => 'validator', 'role' => 'form', 'id' => 'frm-player'] ?>
         <?php echo form_open('#', $attrib); ?>
         <div class="modal-body">
+            <div class="alerts-modal"></div>
             <?php 
             echo co_form_input(
                 array(

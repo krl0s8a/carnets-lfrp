@@ -6,8 +6,16 @@ function render_type_player(x){
     return arr_type_player[x];
 }
 
+function status_card(x){
+    if (x == 'T') {
+        return '<span class="text-success text-center">Impreso</span>';
+    } else {
+        return '<span class="text-warning text-center">Pendiente</span>';
+    }
+}
+
 oTable = $('#cards_table').dataTable({
-    "aaSorting": [[0, "desc"]],
+    "aaSorting": [[6, "desc"]],
     "aLengthMenu": [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
     "iDisplayLength": oLengthMenu,
     'bProcessing': true, 'bServerSide': true,
@@ -25,7 +33,7 @@ oTable = $('#cards_table').dataTable({
     "aoColumns": [{
         "bSortable": false,
         "mRender": checkbox
-    }, null, null, null, null, {"mRender": render_type_player}, null]
+    }, null, null, null, null, {"mRender": render_type_player}, {"mRender" : fld}, {"mRender": status_card, "bSortable": false}]
 });
 
 $player = $('#posplayer');
@@ -92,7 +100,7 @@ $(document).on("click", "#save_player", function (e) {
                 $('#myModal').modal('hide');
             }
         });
-}).on('click','#add-player', function(e){
+}).on('click','#add_player', function(e){
     $.ajax({
         url: site.base_url + 'players/ajax_add_player',
         type: 'POST',

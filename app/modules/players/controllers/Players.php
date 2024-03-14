@@ -40,7 +40,7 @@ class Players  extends MY_Controller {
     //     Template::render();
     // }
     public function create(){
-        $this->load->view('players/create_modal');
+        echo $this->load->view('players/create_modal');
     }
 
     public function view($id = null){
@@ -49,20 +49,40 @@ class Players  extends MY_Controller {
     }
 
     public function ajax_save_player(){
-        $data = $this->player_model->prep_data($_POST);
-        if ($this->player_model->update($_POST['id'], $data)) {
-            $this->futuro->send_json(['error' => 0, 'msg' => 'Actualizado']);
+
+        $this->form_validation->set_rules('last_name', lang('lbl_last_name'), 'required');
+        $this->form_validation->set_rules('first_name', lang('lbl_first_name'), 'required');
+        $this->form_validation->set_rules('dni', lang('lbl_dni'), 'required');
+        $this->form_validation->set_rules('birth', lang('lbl_birth'), 'required');
+
+        if ($this->form_validation->run() === true) {
+            $data = $this->player_model->prep_data($_POST);
+            if ($this->player_model->update($_POST['id'], $data)) {
+                $this->futuro->send_json(['error' => 0, 'msg' => 'Actualizado']);
+            } else {
+                $this->futuro->send_json(['error' => 1, 'msg' => 'No se actualizo']);
+            }
         } else {
-            $this->futuro->send_json(['error' => 1, 'msg' => 'No se actualizo']);
+            $this->futuro->send_json(['error' => 1, 'msg' => validation_errors()]);
         }
     }
     public function ajax_add_player(){
-        $data = $this->player_model->prep_data($_POST);
-        if ($this->player_model->insert($data)) {
-            $this->futuro->send_json(['error' => 0, 'msg' => 'Agregado']);
+
+        $this->form_validation->set_rules('last_name', lang('lbl_last_name'), 'required');
+        $this->form_validation->set_rules('first_name', lang('lbl_first_name'), 'required');
+        $this->form_validation->set_rules('dni', lang('lbl_dni'), 'required');
+        $this->form_validation->set_rules('birth', lang('lbl_birth'), 'required');
+
+        if ($this->form_validation->run() === true) {
+            $data = $this->player_model->prep_data($_POST);
+            if ($this->player_model->insert($data)) {
+                $this->futuro->send_json(['error' => 0, 'msg' => 'Agregado']);
+            } else {
+                $this->futuro->send_json(['error' => 1, 'msg' => 'No se agrego']);
+            }
         } else {
-            $this->futuro->send_json(['error' => 1, 'msg' => 'No se agrego']);
-        }
+            $this->futuro->send_json(['error' => 1, 'msg' => validation_errors()]);
+        }        
     }
 
     public function edit() {
