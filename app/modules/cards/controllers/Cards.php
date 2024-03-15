@@ -188,12 +188,16 @@ class Cards extends MY_Controller {
                 break;
         }        
         $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/template_card/'.$template,$x+0,$y+0, 78.99,53.34);
+
         if (!empty($card->emblem) && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/photos/shields/'.$card->emblem)) {
             $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/photos/shields/'.$card->emblem,$x+34,$y+1, 16,16);
         }        
         $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/qr.png',$x+62,$y+0, 17,17);
+        
         if (!empty($card->photo)) {
             $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/uploads/photos/'.$card->photo,$x+0,$y+22.3, 20.4,20.4);
+        } else if(!empty($card->photo_player)){
+            $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/photos/players/'.$card->photo_player,$x+0,$y+22.3, 20.4,20.4);
         }        
         $obj->SetFont('Arial', 'B', 8);
         // Calculo edad
@@ -242,10 +246,20 @@ class Cards extends MY_Controller {
         //Venía en base64 pero sólo la codificamos así para que viajara por la red, ahora la decodificamos y
         //todo el contenido lo guardamos en un archivo
         $imagenDecodificada = base64_decode($imagenCodificadaLimpia);
-
+        $filename = uniqid().'.png';
         //Calcular un nombre único
-        $nombreImagenGuardada = $_SERVER['DOCUMENT_ROOT']."/assets/uploads/photos/photo_" . uniqid() . ".png";
-        $this->photo = $nombreImagenGuardada;
+        $nombreImagenGuardada = $_SERVER['DOCUMENT_ROOT']."/assets/uploads/photos/photo_". $filename;
+
+        // $this->load->library('image_lib');
+        // $config['image_library']  = 'gd2';
+        // $config['source_image']   = $_SERVER['DOCUMENT_ROOT']."/assets/uploads/photos/photo_". $filename;
+        // $config['new_image']      = $_SERVER['DOCUMENT_ROOT']."/assets/photos/players/thumbs/photo_". $filename;
+        // $config['maintain_ratio'] = true;
+        // $config['width']          = 75;
+        // $config['height']         = 75;
+        // $this->image_lib->clear();
+        // $this->image_lib->initialize($config);
+        // $this->image_lib->resize();
         //Escribir el archivo
         file_put_contents($nombreImagenGuardada, $imagenDecodificada);
 

@@ -53,7 +53,7 @@ class Card_model extends MY_Model {
     }
 
     public function find_data_card($team_id, $player_id, $season_id){
-        $sql = "SELECT t1.*, t2.t_name as team_name, t2.t_emblem as emblem, t3.last_name, t3.first_name, t3.birth 
+        $sql = "SELECT t1.*, t2.t_name as team_name, t2.t_emblem as emblem, t3.last_name, t3.first_name, t3.birth, t3.photo as photo_player 
                 FROM co_bl_players_team as t1
                 LEFT JOIN co_bl_teams as t2
                 ON t2.id = t1.team_id

@@ -10,6 +10,16 @@ class Players  extends MY_Controller {
         $this->load->model(array('player_model','seasons/season_model'));
         $this->load->helper('array');
 
+        $this->digital_upload_path = 'files/';
+        //$this->upload_path         = 'assets/photos/players/';
+        $this->upload_path = $_SERVER['DOCUMENT_ROOT'].'/assets/photos/players/';
+        //$this->thumbs_path         = 'assets/photos/players/thumbs/';
+        $this->thumbs_path         = $_SERVER['DOCUMENT_ROOT'].'/assets/photos/players/thumbs/';
+        $this->image_types         = 'gif|jpg|jpeg|png|tif';
+        $this->digital_file_types  = 'zip|psd|ai|rar|pdf|doc|docx|xls|xlsx|ppt|pptx|gif|jpg|jpeg|png|tif|txt';
+        $this->allowed_file_size   = '1024';
+        $this->popup_attributes    = ['width' => '900', 'height' => '600', 'window_name' => 'sma_popup', 'menubar' => 'yes', 'scrollbars' => 'yes', 'status' => 'no', 'resizable' => 'yes', 'screenx' => '0', 'screeny' => '0'];
+
         Assets::add_module_js('players', 'players.js');
         Template::set_block('sub_nav', '_sub_nav');
     }
@@ -106,8 +116,8 @@ class Players  extends MY_Controller {
                     'Jugadores'
                 );
                 Template::set_message(lang('player_edit_success'), 'success');
-                if (isset($_POST['saveandnew'])) {
-                    Template::redirect('players/create');
+                if (isset($_POST['saveandclose'])) {
+                    Template::redirect('players');
                 }
             } else {
                 Template::set_message(lang('player_edit_failure'), 'danger');
@@ -116,6 +126,7 @@ class Players  extends MY_Controller {
 
         Template::set('seasons',array_by_key_value('id', 'name', $this->season_model->find_all_by_tournament(), 'No seleccionado'));
         Template::set('toolbar_title', lang('edit_player'));
+        
         Template::set('player', $this->player_model->find($id));
         Template::render();
     }
@@ -212,6 +223,18 @@ class Players  extends MY_Controller {
         }
 
         $data = $this->player_model->prep_data($_POST);
+
+        if (isset($_FILES['photo']['name']) && !empty($_FILES['photo']['name'])) {
+            $photo = $this->store_photo();
+            if (isset($photo['file_name'])) {
+                $data['photo'] = $photo['file_name'];
+            } else {
+                $data['photo'] = '';
+            }
+        } else {
+            $data['photo'] = '';
+        }
+
         if ($type == 'insert') {
             $id = $this->player_model->insert($data);
             if (is_numeric($id)) {
@@ -221,6 +244,37 @@ class Players  extends MY_Controller {
             $result = $this->player_model->update($id, $data);
         }
         return $result;
+    }
+
+    private function store_photo() {
+        $config['upload_path'] = $this->upload_path;
+        $config['allowed_types'] = $this->image_types;
+        $config['max_size'] = 2000;
+        $config['max_width'] = 2000;
+        $config['max_height'] = 2000;
+        $config['file_name'] = "pl" . uniqid();
+
+        $this->load->library('upload', $config);
+
+        if (!$this->upload->do_upload('photo')) {
+            return $this->upload->display_errors();
+        } else {
+            $photo = $this->upload->file_name;
+            $this->load->library('image_lib');
+            $config['image_library']  = 'gd2';
+            $config['source_image']   = $this->upload_path . $photo;
+            $config['new_image']      = $this->thumbs_path . $photo;
+            $config['maintain_ratio'] = true;
+            $config['width']          = 75;
+            $config['height']         = 75;
+            $this->image_lib->clear();
+            $this->image_lib->initialize($config);
+            $this->image_lib->resize();
+            // if (!$this->image_lib->resize()) {
+            //     echo $this->image_lib->display_errors();
+            // }
+            return $this->upload->data();
+        }
     }
 
     // Methods Ajax

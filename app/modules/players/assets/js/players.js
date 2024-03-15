@@ -14,6 +14,21 @@ function bus_status(x) {
     return r;
 }
 
+function img_hl(x) {
+    var image_link = x == null || x == '' ? 'no_image.png' : x;
+    return (
+        '<div class="text-center"><a href="' +
+        site.url +
+        'assets/photos/players/' +
+        image_link +
+        '" data-toggle="lightbox"><img src="' +
+        site.url +
+        'assets/photos/players/thumbs/' +
+        image_link +
+        '" alt="" style="width:30px; height:30px;" /></a></div>'
+    );
+}
+
 oTable = $('#player_table').dataTable({
     "aaSorting": [[2, "asc"]],
     "aLengthMenu": [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
@@ -34,7 +49,7 @@ oTable = $('#player_table').dataTable({
     "aoColumns": [{
         "bSortable": false,
         "mRender": checkbox
-    }, null, null, null, null, {"mRender" : fsd}, null, { "bSortable": false }]
+    }, {"mRender":img_hl}, null, null, null, {"mRender" : fsd}, null, { "bSortable": false }]
 }).on('click', '.po-delete-player', function (e) {
     e.preventDefault();
     $('.po').popover('hide');

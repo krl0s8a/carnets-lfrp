@@ -6,7 +6,7 @@
     </div>
     <?php
     $attrib = ['data-toggle' => 'validator', 'role' => 'form'];
-    echo form_open($this->uri->uri_string(), $attrib);
+    echo form_open_multipart($this->uri->uri_string(), $attrib);
     echo form_hidden('id', isset($player) ? $player->id : '');
     ?>
     <div class="box-content">
@@ -28,6 +28,13 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="tab-1">
                             <div class="row">
+                                <div class="col-md-2">
+                                    <?php
+                                    $url = empty($player->photo) ? base_url('assets/images/no-image.png') :
+                                    base_url('assets/photos/players/').$player->photo;
+                                    ?>
+                                    <img width="100%" src="<?= $url ?>" alt="Foto <?= $player->last_name ?>" class="img-circle"> 
+                                </div>
                                 <div class="col-md-3">
                                     <?php 
                                     echo co_form_input(
@@ -66,7 +73,16 @@
                                         ),
                                         set_value('birth', formatDate($player->birth,'Y-m-d','d/m/Y')),
                                         lang('lbl_birth')
-                                    )
+                                    );
+                                    echo co_form_input(array(
+                                        'name'     => 'photo',
+                                        'id'       => 'photo',
+                                        'type' => 'file',
+                                        'class'    => 'form-control file',
+                                        'data-browse-label' => 'Adjuntar',
+                                        'data-show-upload' => false,
+                                        'data-show-preview' => false
+                                    ), '', lang('lbl_photo'));
                                     ?>
                                 </div>
                             </div>
@@ -108,11 +124,11 @@
         );
         echo form_button(
             array(
-                'name' => 'saveandnew',
-                'id' => 'saveandnew',
+                'name' => 'saveandclose',
+                'id' => 'saveandclose',
                 'type' => 'submit',
                 'class' => 'btn btn-default',
-                'content' => '<i class="fa fa-chevron-down"></i> '.$this->lang->line('saveandnew')
+                'content' => '<i class="fa fa-chevron-down"></i> '.$this->lang->line('saveandclose')
             )
         ); 
         echo anchor(site_url('players'), '<i class="fa fa-remove"></i> '.lang('close'), array('class' => 'btn btn-default')); 
