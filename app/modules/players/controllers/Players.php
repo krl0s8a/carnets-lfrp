@@ -228,11 +228,7 @@ class Players  extends MY_Controller {
             $photo = $this->store_photo();
             if (isset($photo['file_name'])) {
                 $data['photo'] = $photo['file_name'];
-            } else {
-                $data['photo'] = '';
             }
-        } else {
-            $data['photo'] = '';
         }
 
         if ($type == 'insert') {
