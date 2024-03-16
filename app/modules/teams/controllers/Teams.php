@@ -162,19 +162,15 @@ class Teams extends MY_Controller {
         if ($this->form_validation->run() === false) {
             return false;
         }
-
         
         $data = $this->team_model->prep_data($_POST);
+
         if (isset($_FILES['t_emblem']['name']) && !empty($_FILES['t_emblem']['name'])) {
             $photo = $this->store_photo();
             if (isset($photo['file_name'])) {
                 $data['t_emblem'] = $photo['file_name'];
-            } else {
-                $data['t_emblem'] = '';
             }
-        } else {
-            $data['t_emblem'] = '';
-        }
+        } 
         
         //echo "<pre>"; print_r($data); echo "</pre>"; exit;
         if ($type == 'insert') {
