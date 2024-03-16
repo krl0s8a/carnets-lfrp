@@ -172,7 +172,6 @@ class Teams extends MY_Controller {
             }
         } 
         
-        //echo "<pre>"; print_r($data); echo "</pre>"; exit;
         if ($type == 'insert') {
             $id = $this->team_model->insert($data);
             if (is_numeric($id)) {
