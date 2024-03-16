@@ -116,7 +116,7 @@ class Cards extends MY_Controller {
         $this->pdf->SetFont('Arial', '', 6);
         // Nombre del equipo
         $this->pdf->SetXY(27.5,19.5);
-        $this->pdf->Cell(40, 6, strtoupper($card->team_name), 0);
+        $this->pdf->Cell(40, 6, strtoupper($card->short_name), 0);
         // Apellid
         $this->pdf->SetXY(30,23.95);
         $this->pdf->Cell(35, 6, strtoupper($card->last_name), 0);
@@ -217,7 +217,7 @@ class Cards extends MY_Controller {
         $obj->SetFont('Arial', '', 6);
         // Nombre del equipo
         $obj->SetXY($x+27.5,$y+19.5);
-        $obj->Cell(40, 6, strtoupper($card->team_name), 0);
+        $obj->Cell(40, 6, strtoupper($card->short_name), 0);
         // Apellid
         $obj->SetXY($x+30,$y+23.95);
         $obj->Cell(35, 6, strtoupper($card->last_name), 0);
@@ -341,7 +341,7 @@ class Cards extends MY_Controller {
         $this->pdf->SetFont('Arial', '', 6);
         // Nombre del equipo
         $this->pdf->SetXY(27.5,19.5);
-        $this->pdf->Cell(40, 6, strtoupper($card->team_name), 0);
+        $this->pdf->Cell(40, 6, strtoupper($card->short_name), 0);
         // Apellid
         $this->pdf->SetXY(29.5,23.95);
         $this->pdf->Cell(35, 6, strtoupper($card->last_name), 0);
