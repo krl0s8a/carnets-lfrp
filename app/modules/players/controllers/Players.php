@@ -68,8 +68,8 @@ class Players  extends MY_Controller {
 
         $this->form_validation->set_rules('last_name', lang('lbl_last_name'), 'required');
         $this->form_validation->set_rules('first_name', lang('lbl_first_name'), 'required');
-        $this->form_validation->set_rules('dni', lang('lbl_dni'), 'required');
-        $this->form_validation->set_rules('birth', lang('lbl_birth'), 'required');
+        //$this->form_validation->set_rules('dni', lang('lbl_dni'), 'required');
+        //$this->form_validation->set_rules('birth', lang('lbl_birth'), 'required');
 
         if ($this->form_validation->run() === true) {
             $data = $this->player_model->prep_data($_POST);
