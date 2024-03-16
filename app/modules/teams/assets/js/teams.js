@@ -21,7 +21,7 @@ oTable = $('#team_table').dataTable({
     "aoColumns": [{
         "bSortable": false,
         "mRender": checkbox
-    },  null, null, null, { "bSortable": false }]
+    },  null, null, null, null, { "bSortable": false }]
 });
 
 $(document).on('click', '.po-delete-avatar', function (e) {

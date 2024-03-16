@@ -227,7 +227,7 @@ class Teams extends MY_Controller {
             $this->load->library('datatables');
             $this->datatables->set_database('joomla');
             $this->datatables
-                ->select('t1.id as id, t1.t_name, t1.t_descr, t1.t_city')
+                ->select('t1.id as id, t1.t_name, t1.short_name, t1.t_descr, t1.t_city')
                 ->from('co_bl_teams as t1')
                 //->where('t1.position', 'Chofer')
                 //->edit_column('last_name', '$1__$2', 'last_name, id')

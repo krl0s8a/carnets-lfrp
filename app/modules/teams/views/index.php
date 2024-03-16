@@ -47,19 +47,18 @@
                                 <th style="min-width:30px; max-width: 30px; text-align: center;">
                                     <input class="checkbox checkth" type="checkbox" name="check" />
                                 </th>
-                                <th style="width: 40%; text-align: left;">
-                                    Equipo
-                                </th>
+                                <th style="width: 30%; text-align: left;"><?= lang('lbl_t_name') ?></th>
+                                <th style="width: 20%; text-align: left;"><?= lang('lbl_short_name') ?></th>
                                 <th style="width: 20%; text-align: left;">Categoria</th>
-                                <th style="width: 30%; text-align: left;">
+                                <th style="width: 20%; text-align: left;">
                                     Lugar de representacion
                                 </th>
-                                <th>Acciones</th>
+                                <th><?= lang('actions') ?></th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td colspan="5" class="dataTables_empty">
+                                <td colspan="6" class="dataTables_empty">
                                     <?= lang('loading_data_from_server') ?>
                                 </td>
                             </tr>
