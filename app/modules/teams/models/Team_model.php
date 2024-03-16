@@ -66,6 +66,15 @@ class Team_model extends MY_Model {
         parent::__construct();
     }
 
-    
+    public function prep_data($post){
+        $data = array(
+            't_name' => $post['t_name'],
+            't_descr' => $post['t_descr'],
+            't_city' => $post['t_city'],
+            'short_name' => $post['short_name']
+        );
+
+        return $data;
+    }
 
 }

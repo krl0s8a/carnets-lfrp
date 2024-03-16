@@ -64,15 +64,15 @@
                                         set_value('t_city', $team->t_city),
                                         lang('lbl_t_city')
                                     );
-                                    echo co_form_input(array(
-                                        'name'     => 't_emblem',
-                                        'id'       => 't_emblem',
-                                        'type' => 'file',
-                                        'class'    => 'form-control file',
-                                        'data-browse-label' => 'Adjuntar',
-                                        'data-show-upload' => false,
-                                        'data-show-preview' => false
-                                    ), '', lang('lbl_t_emblem_change'));
+                                    // echo co_form_input(array(
+                                    //     'name'     => 't_emblem',
+                                    //     'id'       => 't_emblem',
+                                    //     'type' => 'file',
+                                    //     'class'    => 'form-control file',
+                                    //     'data-browse-label' => 'Adjuntar',
+                                    //     'data-show-upload' => false,
+                                    //     'data-show-preview' => false
+                                    // ), '', lang('lbl_t_emblem_change'));
                                     ?>
                                 </div>
                                 <div class="col-md-7">
