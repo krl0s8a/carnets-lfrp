@@ -1,7 +1,4 @@
-function linkView(x) {
-    var y = x.split('__');
-    return '<a data-toggle="modal" data-target="#myModal" href="' + site.base_url + 'cities/edit/' + y[1] + '" title="Ver detalles del permiso">' + y[0] + '</a>';
-}
+
 function render_type_player(x){
     return arr_type_player[x];
 }
@@ -17,7 +14,8 @@ function status_card(x){
 oTable = $('#cards_table').dataTable({
     "aaSorting": [[6, "desc"]],
     "aLengthMenu": [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
-    "iDisplayLength": oLengthMenu,
+    //"iDisplayLength": oLengthMenu,
+    "iDisplayLength": 10,
     'bProcessing': true, 'bServerSide': true,
     'sAjaxSource': 'cards/get_cards',
     'oLanguage': dt_lang,
@@ -33,7 +31,7 @@ oTable = $('#cards_table').dataTable({
     "aoColumns": [{
         "bSortable": false,
         "mRender": checkbox
-    }, null, null, null, null, {"mRender": render_type_player}, {"mRender" : fld}, {"mRender": status_card, "bSortable": false}]
+    }, null, null, null, null, {"mRender": render_type_player}, {"mRender" : fld},null]
 });
 
 $player = $('#posplayer');
@@ -112,6 +110,24 @@ $(document).on("click", "#save_player", function (e) {
                 addAlertModal(data.msg, 'danger');
             } else {
                 addAlert(data.msg, 'success');                
+                $('#myModal').modal('hide');
+            }
+        });
+}).on('click', '#btn_edit', function(e){
+    $.ajax({
+        url: site.base_url + 'cards/save_edit',
+        type: 'POST',
+        dataType: 'json',
+        data: $('#frmEdit').serialize()
+    })
+        .done(function (data) {
+            if (data.error == 1) {
+                addAlertModal(data.msg, 'danger');
+            } else {
+                addAlert(data.msg, 'success');     
+                if (oTable != '') {
+                    oTable.fnDraw();
+                }           
                 $('#myModal').modal('hide');
             }
         });

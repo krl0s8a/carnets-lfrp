@@ -24,25 +24,26 @@ class Cards extends MY_Controller {
 
     public function create() {
         //$this->auth->restrict($this->busAdd);
-        if (isset($_POST['save']) || isset($_POST['saveandnew'])) {
-           
+        if (isset($_POST['saveandclose']) || isset($_POST['saveandnew'])) {           
             if ($this->save('insert')) {                
                 log_activity(
                     $this->current_user->id,
                     lang('act_create_card'),
                     'Carnets'
                 );
-                if (isset($_POST['saveandnew'])) {
-                    Template::set_message(lang('card_created_success'), 'success');
-                } else {
-                    $this->print_card();   
-                    $where = array(
-                        'team_id' => $_POST['team_id'],
-                        'player_id' => $_POST['player'],
-                        'season_id' => $_POST['season_id']
-                    );  
-                    $this->card_model->update($where, array('status' => 'T'));               
-                }                                
+                Template::set_message(lang('card_created_success'), 'success');
+                if (isset($_POST['saveandclose'])) {
+                    Template::redirect('cards');
+                }  
+                //} else {
+                    // $this->print_card();   
+                    // $where = array(
+                    //     'team_id' => $_POST['team_id'],
+                    //     'player_id' => $_POST['player'],
+                    //     'season_id' => $_POST['season_id']
+                    // );  
+                    // $this->card_model->update($where, array('status' => 'T'));    }
+                //}                                
             } else {
                 Template::set_message(lang('card_created_failure'), 'danger');
             }
@@ -159,7 +160,7 @@ class Cards extends MY_Controller {
     }
     private function card($obj, $data, $x, $y){
         // Obtenemos los datos para el carnet
-        list($season_id, $team_id, $player_id) = explode('&', $data);
+        list($season_id, $team_id, $player_id) = explode('/', $data);
         $card = $this->card_model->find_data_card($team_id,$player_id,$season_id);
         switch ($card->category) {
             case 1: // masculino
@@ -217,10 +218,10 @@ class Cards extends MY_Controller {
         $obj->SetFont('Arial', '', 6);
         // Nombre del equipo
         $obj->SetXY($x+27.5,$y+19.5);
-        $obj->Cell(40, 6, strtoupper($card->short_name), 0);
+        $obj->Cell(40, 6, strtoupper(utf8_decode($card->short_name)), 0);
         // Apellid
         $obj->SetXY($x+30,$y+23.95);
-        $obj->Cell(35, 6, strtoupper($card->last_name), 0);
+        $obj->Cell(35, 6, strtoupper(utf8_decode($card->last_name)), 0);
         // Nombre
         $obj->SetXY($x+30,$y+28.35);
         $obj->Cell(35, 6, strtoupper(utf8_decode($card->first_name)), 0);
@@ -270,16 +271,42 @@ class Cards extends MY_Controller {
     }
 
     public function edit() {
-        $id = (int) $this->uri->segment(3);
-        if (empty($id)) {
-            Template::set_message(lang('invalid_id'), 'danger');
-            redirect('cities');
-        }
+        $team_id = (int) $this->uri->segment(4);
+        $player_id = (int) $this->uri->segment(5);
+        $season_id = (int) $this->uri->segment(3);
+        
+        $card = $this->card_model->find_data_card($team_id,$player_id,$season_id);
+        $this->team_model->order_by('t_name');
+        $data['card'] = $card;
+        $data['teams'] = array_by_key_value('id', 't_name', $this->team_model->find_all(), 'No seleccionado');
+        $data['seasons'] = array_by_key_value('id', 'name', $this->season_model->find_all_by_tournament(), 'No seleccionado');
+        
+        echo $this->load->view('cards/edit', $data, TRUE);
+    }
 
-        $this->load->model('state_model');
-        $data['states'] = $this->state_model->getStates();
-        $data['city'] = $this->city_model->find($id);
-        echo $this->load->view('cities/edit', $data, TRUE);
+    public function save_edit(){
+        if ($this->input->is_ajax_request()) {
+            $where = array(
+                'team_id' => $_POST['team_id'], 
+                'player_id' => $_POST['player_id'], 
+                'season_id' => $_POST['season_id']
+            );
+            $data = array(
+                'number' => $_POST['number'],
+                'type_player' => $_POST['type_player'],
+                'datetime' => formatDate($_POST['datetime'],'d/m/Y','Y-m-d'),
+                'category' => $_POST['category']
+            );
+            
+            if ($this->card_model->update($where, $data)) {
+                $this->futuro->send_json(['error' => 0, 'msg' => 'Actualizado']);
+            } else {
+                $this->futuro->send_json(['error' => 1, 'msg' => 'No se actualizo']);
+            }
+            
+        } else {
+            redirect('404');
+        }
     }
 
     public function test(){
@@ -395,29 +422,33 @@ class Cards extends MY_Controller {
         if ($this->form_validation->run() == true) {
             if (!empty($_POST['val'])) {
                 if ($this->input->post('form_action') == 'delete') {
+                    $c = 0;
                     foreach ($_POST['val'] as $k => $v) {
-                        list($s,$t,$p) = explode('&', $v);
+                        list($s,$t,$p) = explode('/', $v);
                         $where = array(
                             'team_id' => $t,
                             'player_id' => $p,
                             'season_id' => $s
                         );
-                        $this->card_model->update($where,array('confirmed' => 0));
+                        //$this->card_model->update($where,array('confirmed' => 0));
+                        if ($this->card_model->delete_where($where)) {
+                            $c++;
+                        }
                     }
-                    Template::set_message(lang('cards_deleted_success'), 'success');
+                    Template::set_message(lang('cards_deleted_success').' : '.$c, 'success');
 
                     redirect($_SERVER['HTTP_REFERER']);
                 }
                 // Print abonos
                 if ($this->input->post('form_action') == 'print_cards') {
                     if (count($_POST['val']) > 10) {
-                        Template::set_message('Imprimir carnets de 10 unidades', 'warning');
+                        Template::set_message('Imprimir en cantidades no mayor a 10', 'warning');
                         redirect($_SERVER['HTTP_REFERER']);
                     } else {
                         $this->print_a4($_POST['val']);
                         if (!empty($_POST['val'])) {
                             foreach ($_POST['val'] as $v) {
-                                list($s,$t,$p) = explode('&', $v);
+                                list($s,$t,$p) = explode('/', $v);
                                 $where = array(
                                     'team_id' => $t,
                                     'player_id' => $p,
@@ -444,17 +475,17 @@ class Cards extends MY_Controller {
         if (!$this->input->is_ajax_request()) {
             redirect('404', 'refresh');
         } else {
-            $action = '<a href="'.site_url('cards/print_card_public/$1/$2').'">Imprimir</a>';
             $this->load->library('datatables');
             $this->datatables->set_database('joomla');
+            $action = '<div class="text-center"><a class="tip" title="Editar" href="'.site_url('cards/edit/$1').'" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i></a></div>';
             $this->datatables
-                ->select('concat_ws("&",t4.s_id,t3.id,t2.id) as id, concat_ws(" ",t2.last_name, t2.first_name) as full_name, t3.t_name, t4.s_name, t1.number, t1.type_player, t1.datetime, t1.status')
+                ->select('concat_ws("/",t4.s_id,t3.id,t2.id) as id, concat_ws(" ",t2.last_name, t2.first_name) as full_name, t3.t_name, t4.s_name, t1.number, t1.type_player, t1.datetime')
                 ->from('co_bl_players_team as t1')
                 ->join('co_bl_players as t2', 't2.id = t1.player_id', 'left')
                 ->join('co_bl_teams as t3', 't3.id = t1.team_id', 'left')
                 ->join('co_bl_seasons as t4', 't4.s_id = t1.season_id', 'left')
-                ->where('t1.confirmed',1);
-                //->add_column('Actions', $action, 'id');
+                ->where('t1.confirmed',1)
+                ->add_column('Actions', $action, 'id');
                 //->edit_column('name', '$1__$2', 'name, id')
                 //->edit_column('status', '$1__$2', 'status, id');
             echo $this->datatables->generate();

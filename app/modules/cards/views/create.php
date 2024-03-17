@@ -130,13 +130,22 @@
     </div>
     <div class="box-footer ">
         <?php 
+        // echo form_button(
+        //     array(
+        //         'name' => 'save',
+        //         'id' => 'save',
+        //         'type' => 'submit',
+        //         'class' => 'btn btn-primary',
+        //         'content' => '<i class="fa fa-print"></i> Guardar e imprimir'
+        //     )
+        // );
         echo form_button(
             array(
-                'name' => 'save',
-                'id' => 'save',
+                'name' => 'saveandclose',
+                'id' => 'saveandclose',
                 'type' => 'submit',
                 'class' => 'btn btn-primary',
-                'content' => '<i class="fa fa-print"></i> Guardar e imprimir'
+                'content' => '<i class="fa fa-print"></i> '.lang('saveandclose')
             )
         );
         echo form_button(

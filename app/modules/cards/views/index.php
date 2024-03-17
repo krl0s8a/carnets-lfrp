@@ -63,7 +63,7 @@
                                     <?php echo lang('lbl_datetime'); ?>
                                 </th>
                                 <th>
-                                    <?php echo lang('status'); ?>
+                                    <?php echo lang('actions'); ?>
                                 </th>
                             </tr>
                         </thead>
