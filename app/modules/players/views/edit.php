@@ -30,8 +30,14 @@
                             <div class="row">
                                 <div class="col-md-2">
                                     <?php
-                                    $url = empty($player->photo) ? base_url('assets/images/no-image.png') :
-                                    base_url('assets/photos/players/').$player->photo;
+                                    if (!empty($player->photo) && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/photos/players/'.$player->photo)) {
+                                        $url = base_url('assets/photos/players/').$player->photo;
+                                    } else {
+                                        $url = base_url('assets/images/no-image.png');
+                                    }
+                                    // }
+                                    // $url = empty($player->photo) ? base_url('assets/images/no-image.png') :
+                                    // base_url('assets/photos/players/').$player->photo;
                                     ?>
                                     <img width="100%" src="<?= $url ?>" alt="Foto <?= $player->last_name ?>" class="img-circle"> 
                                 </div>

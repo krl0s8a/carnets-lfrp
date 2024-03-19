@@ -34,16 +34,7 @@ class Cards extends MY_Controller {
                 Template::set_message(lang('card_created_success'), 'success');
                 if (isset($_POST['saveandclose'])) {
                     Template::redirect('cards');
-                }  
-                //} else {
-                    // $this->print_card();   
-                    // $where = array(
-                    //     'team_id' => $_POST['team_id'],
-                    //     'player_id' => $_POST['player'],
-                    //     'season_id' => $_POST['season_id']
-                    // );  
-                    // $this->card_model->update($where, array('status' => 'T'));    }
-                //}                                
+                }                  
             } else {
                 Template::set_message(lang('card_created_failure'), 'danger');
             }
@@ -195,9 +186,9 @@ class Cards extends MY_Controller {
         }        
         $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/qr.png',$x+62,$y+0, 17,17);
         
-        if (!empty($card->photo)) {
+        if (!empty($card->photo && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/uploads/photos/'.$card->photo))) {
             $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/uploads/photos/'.$card->photo,$x+0,$y+22.3, 20.4,20.4);
-        } else if(!empty($card->photo_player)){
+        } else if(!empty($card->photo_player) && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/photos/players/'.$card->photo_player)){
             $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/photos/players/'.$card->photo_player,$x+0,$y+22.3, 20.4,20.4);
         }        
         $obj->SetFont('Arial', 'B', 8);
@@ -276,6 +267,7 @@ class Cards extends MY_Controller {
         $season_id = (int) $this->uri->segment(3);
         
         $card = $this->card_model->find_data_card($team_id,$player_id,$season_id);
+        
         $this->team_model->order_by('t_name');
         $data['card'] = $card;
         $data['teams'] = array_by_key_value('id', 't_name', $this->team_model->find_all(), 'No seleccionado');
@@ -407,10 +399,13 @@ class Cards extends MY_Controller {
                 $this->card_model->insert($data);
                 $result = 1;
             }      
-            // Actualizar la foto en los datos del jugador
-            $this->player_model->update($_POST['player'],array('photo' => $data['photo']));
-        } else {
-            $result = $this->card_model->update($id, $data);
+            if ($result) {
+                // player list
+                $this->load->model('players/playerlist_model');
+                if (!$this->playerlist_model->find_by($where)) {
+                    $this->playerlist_model->insert($where);
+                }                
+            }
         }
         return $result;
     }

@@ -59,49 +59,72 @@
                                     $teams,
                                     set_value('team_id'),
                                     'Seleccione el equipo'
-                                );
-                                echo co_form_input(
-                                    array(
-                                        'name' => 'number',
-                                        'id' => 'number',
-                                        'class' => 'form-control required'
-                                    ),
-                                    set_value('number'),
-                                    lang('lbl_number')
-                                );
-                                echo co_form_dropdown(
-                                    array(
-                                        'name' => 'type_player',
-                                        'class' => 'form-control'
-                                    ),
-                                    type_player(),
-                                    set_value('type_player'),
-                                    lang('lbl_type_player')
-                                );
-                                echo co_form_input(
-                                    array(
-                                        'name' => 'date',
-                                        'id' => 'date',
-                                        'class' => 'form-control date'
-                                    ),
-                                    set_value('date', date('d/m/Y')),
-                                    lang('lbl_date')
-                                );
-                                echo co_form_dropdown(
-                                    array(
-                                        'name' => 'category',
-                                        'class' => 'form-control'
-                                    ),
-                                    array(
-                                        1 => 'Masculino',
-                                        2 => 'Femenino',
-                                        3 => 'Standar Masculino',
-                                        4 => 'Standar Femenino'
-                                    ),
-                                    set_value('category'),
-                                    lang('lbl_category')
-                                );
+                                );                                 
                                 ?>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                    <?php
+                                    echo co_form_input(
+                                        array(
+                                            'name' => 'number',
+                                            'id' => 'number',
+                                            'class' => 'form-control required',
+                                            'maxlength' => 2,
+                                            'required' => 'required'
+                                        ),
+                                        set_value('number'),
+                                        lang('lbl_number')
+                                    );
+                                    ?>
+                                    </div>
+                                    <div class="col-md-7">
+                                    <?php
+                                    echo co_form_dropdown(
+                                        array(
+                                            'name' => 'type_player',
+                                            'class' => 'form-control'
+                                        ),
+                                        type_player(),
+                                        set_value('type_player'),
+                                        lang('lbl_type_player')
+                                    );
+                                    ?>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                    <?php
+                                    echo co_form_input(
+                                        array(
+                                            'name' => 'date',
+                                            'id' => 'date',
+                                            'class' => 'form-control date',
+                                            'required' => 'required'
+                                        ),
+                                        set_value('date', date('d/m/Y')),
+                                        lang('lbl_date')
+                                    );
+                                    ?>
+                                    </div>
+                                    <div class="col-md-7">
+                                    <?php
+                                    echo co_form_dropdown(
+                                        array(
+                                            'name' => 'category',
+                                            'class' => 'form-control'
+                                        ),
+                                        array(
+                                            1 => 'Masculino',
+                                            2 => 'Femenino',
+                                            3 => 'Standar Masculino',
+                                           // 4 => 'Standar Femenino'
+                                        ),
+                                        set_value('category'),
+                                        lang('lbl_category')
+                                    );
+                                    ?>
+                                    </div>
+                                </div>
                             </div>
                             <div class="col-md-8">  
                                 <div class="form-group">

@@ -4,17 +4,32 @@
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-2x">&times;</i>
             </button>
             <h4 class="modal-title" id="myModalLabel"><i class="fa fa-edit"></i>
-                <?= $card->last_name.' '.$card->first_name ?>
+                JUGADOR/A: <?= $card->last_name.' '.$card->first_name ?>
             </h4>
         </div>
         <?php $attrib = ['data-toggle' => 'validator', 'role' => 'form', 'id' => 'frmEdit'] ?>
         <?php echo form_open('#', $attrib); 
         echo form_hidden('player_id', $card->player_id);
-        ?>
-        
+        ?>        
         <div class="modal-body">
             <div class="alerts-modal"></div>
-            <?php 
+            <div class="form-group">
+                <?php
+                if (!empty($card->photo) && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/uploads/photos/'.$card->photo)) {
+                    $url = base_url('assets/uploads/photos/'.$card->photo);
+                } else if(!empty($card->photo_player) && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/photos/players/'.$card->photo_player)){
+                    $url = base_url('assets/photos/players/'.$card->photo_player);
+                } else {
+                    $url = base_url('assets/images/no-image.png');
+                    $no_photo = '<p>Jugador/a sin foto. Agregue la foto desde <a href="'.base_url('players/edit/'.$card->player_id).'">aqui</a> para que salga en el carnet.</p>';
+                }
+                ?>
+                <img width="50%" src="<?= $url ?>"  class="img-round"> 
+                <?php if (isset($no_photo)): ?>
+                    <?php echo $no_photo; ?>
+                <?php endif ?>
+            </div>
+            <?php             
             echo co_form_dropdown(
                 array(
                     'name' => 'season_id',
@@ -37,48 +52,68 @@
                 set_value('team_id', $card->team_id),
                 'Seleccione el equipo'
             );
-            echo co_form_input(
-                array(
-                    'name' => 'number',
-                    'id' => 'number',
-                    'class' => 'form-control required'
-                ),
-                set_value('number', $card->number),
-                lang('lbl_number')
-            );
-            echo co_form_dropdown(
-                array(
-                    'name' => 'type_player',
-                    'class' => 'form-control'
-                ),
-                type_player(),
-                set_value('type_player', $card->type_player),
-                lang('lbl_type_player')
-            );
-            echo co_form_input(
-                array(
-                    'name' => 'datetime',
-                    'id' => 'datetime',
-                    'class' => 'form-control date'
-                ),
-                set_value('datetime', date('d/m/Y', strtotime($card->datetime))),
-                lang('lbl_date')
-            );
-            echo co_form_dropdown(
-                array(
-                    'name' => 'category',
-                    'class' => 'form-control'
-                ),
-                array(
-                    1 => 'Masculino',
-                    2 => 'Femenino',
-                    3 => 'Standar Masculino',
-                    4 => 'Standar Femenino'
-                ),
-                set_value('category'. $card->category),
-                lang('lbl_category')
-            );
             ?>
+            <div class="row">
+                <div class="col-md-5">
+                    <?php 
+                    echo co_form_input(
+                        array(
+                            'name' => 'number',
+                            'id' => 'number',
+                            'class' => 'form-control required'
+                        ),
+                        set_value('number', $card->number),
+                        lang('lbl_number')
+                    );
+                    ?>
+                </div>
+                <div class="col-md-7">
+                    <?php 
+                    echo co_form_dropdown(
+                        array(
+                            'name' => 'type_player',
+                            'class' => 'form-control'
+                        ),
+                        type_player(),
+                        set_value('type_player', $card->type_player),
+                        lang('lbl_type_player')
+                    );
+                    ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5">
+                    <?php 
+                    echo co_form_input(
+                        array(
+                            'name' => 'datetime',
+                            'id' => 'datetime',
+                            'class' => 'form-control date'
+                        ),
+                        set_value('datetime', date('d/m/Y', strtotime($card->datetime))),
+                        lang('lbl_date')
+                    );
+                    ?>
+                </div>
+                <div class="col-md-7">
+                    <?php 
+                    echo co_form_dropdown(
+                        array(
+                            'name' => 'category',
+                            'class' => 'form-control'
+                        ),
+                        array(
+                            1 => 'Masculino',
+                            2 => 'Femenino',
+                            3 => 'Standar Masculino',
+                            //4 => 'Standar Femenino'
+                        ),
+                        set_value('category', $card->category),
+                        lang('lbl_category')
+                    );
+                    ?>
+                </div>
+            </div>
         </div>
         <div class="modal-footer">
             <span class="btn btn-sm btn-primary" id="btn_edit">
