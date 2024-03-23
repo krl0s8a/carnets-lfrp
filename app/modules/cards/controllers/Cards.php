@@ -268,12 +268,14 @@ class Cards extends MY_Controller {
         
         $card = $this->card_model->find_data_card($team_id,$player_id,$season_id);
         
-        $this->team_model->order_by('t_name');
-        $data['card'] = $card;
-        $data['teams'] = array_by_key_value('id', 't_name', $this->team_model->find_all(), 'No seleccionado');
-        $data['seasons'] = array_by_key_value('id', 'name', $this->season_model->find_all_by_tournament(), 'No seleccionado');
-        
-        echo $this->load->view('cards/edit', $data, TRUE);
+        if ($card) {
+            $this->team_model->order_by('t_name');
+            $data['card'] = $card;
+            $data['teams'] = array_by_key_value('id', 't_name', $this->team_model->find_all(), 'No seleccionado');
+            $data['seasons'] = array_by_key_value('id', 'name', $this->season_model->find_all_by_tournament(), 'No seleccionado');
+            
+            echo $this->load->view('cards/edit', $data, TRUE);
+        }
     }
 
     public function save_edit(){
@@ -420,14 +422,16 @@ class Cards extends MY_Controller {
                     $c = 0;
                     foreach ($_POST['val'] as $k => $v) {
                         list($s,$t,$p) = explode('/', $v);
-                        $where = array(
-                            'team_id' => $t,
-                            'player_id' => $p,
-                            'season_id' => $s
-                        );
-                        //$this->card_model->update($where,array('confirmed' => 0));
-                        if ($this->card_model->delete_where($where)) {
-                            $c++;
+                        if (isset($s) && isset($t) && isset($p)) {
+                            $where = array(
+                                'team_id' => $t,
+                                'player_id' => $p,
+                                'season_id' => $s
+                            );
+                            //$this->card_model->update($where,array('confirmed' => 0));
+                            if ($this->card_model->delete_where($where)) {
+                                $c++;
+                            }
                         }
                     }
                     Template::set_message(lang('cards_deleted_success').' : '.$c, 'success');
