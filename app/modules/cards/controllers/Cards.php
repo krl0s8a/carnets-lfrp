@@ -275,6 +275,8 @@ class Cards extends MY_Controller {
             $data['seasons'] = array_by_key_value('id', 'name', $this->season_model->find_all_by_tournament(), 'No seleccionado');
             
             echo $this->load->view('cards/edit', $data, TRUE);
+        } else {
+            echo '<p>Datos no disponibles.</p>';
         }
     }
 
