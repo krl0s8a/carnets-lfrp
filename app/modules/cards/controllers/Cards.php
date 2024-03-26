@@ -291,7 +291,8 @@ class Cards extends MY_Controller {
                 'number' => $_POST['number'],
                 'type_player' => $_POST['type_player'],
                 'datetime' => formatDate($_POST['datetime'],'d/m/Y','Y-m-d'),
-                'category' => $_POST['category']
+                'category' => $_POST['category'],
+                'card' => 1
             );
             
             if ($this->card_model->update($where, $data)) {
@@ -485,10 +486,8 @@ class Cards extends MY_Controller {
                 ->join('co_bl_players as t2', 't2.id = t1.player_id', 'left')
                 ->join('co_bl_teams as t3', 't3.id = t1.team_id', 'left')
                 ->join('co_bl_seasons as t4', 't4.s_id = t1.season_id', 'left')
-                ->where('t1.confirmed',1)
+                ->where('t1.card',1)
                 ->add_column('Actions', $action, 'id');
-                //->edit_column('name', '$1__$2', 'name, id')
-                //->edit_column('status', '$1__$2', 'status, id');
             echo $this->datatables->generate();
         }
     }

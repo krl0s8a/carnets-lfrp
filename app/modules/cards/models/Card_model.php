@@ -43,11 +43,11 @@ class Card_model extends MY_Model {
             'team_id' => $post['team_id'],
             'season_id' => $post['season_id'],
             'number' => $post['number'],
-            'confirmed' => 1,
             'type_player' => $post['type_player'],
             'datetime' => date('Y-m-d H:i:s'),
             'photo' => $file,
-            'category' => $post['category']
+            'category' => $post['category'],
+            'card' => 1
         );
         return $data; 
     }
