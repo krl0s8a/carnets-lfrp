@@ -38,6 +38,8 @@ class Team_model extends MY_Model {
     /** @var bool Set the modified time automatically. */
     protected $set_modified = false;
 
+    protected $set_created = false;
+
     /** @var bool Skip the validation. */
     protected $skip_validation = false;
 
