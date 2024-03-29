@@ -300,23 +300,9 @@ class Users extends MY_Controller {
                 ->find_all()
         );
 
-        // recuperamos los empleados que se pueden asociar a un usuario
-        $this->load->model('employees/employee_model');
-        $this->employee_model->select('employees.id, last_name, first_name, position');
-        $this->employee_model->join('people', 'people.id = employees.people_id', 'left');
-        $aux_employees = $this->employee_model->find_all();
-
-        foreach ($aux_employees as $v) {
-            $employees[0] = '--Ninguno--';
-            $employees[$v->id] = $v->last_name . ' ' . $v->first_name . ' (' . $v->position . ')';
-        }
-
-
         $this->load->model('state_model');
         Template::set('states', $this->state_model->getStates());
-        $this->load->model('cities/city_model');
-        Template::set('cities', $this->city_model->getCitiesByState(2));
-        Template::set('employees', $employees);
+        
         Template::set('user', $user);
         Template::set('toolbar_title', lang('us_edit_user'));
         Template::render();

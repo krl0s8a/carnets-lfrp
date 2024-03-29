@@ -118,15 +118,6 @@ endif;
                     lang('bf_password'), '',
                     '<span class="help-block">' . lang('us_pasword_hint') . '</span>'
                 );
-                echo co_form_checkbox(
-                    array(
-                        'name' => 'employee',
-                        'id' => 'employee'
-                    ),
-                    1,
-                    isset($user->employee) && $user->employee == 1,
-                    lang('us_employee')
-                );
                 ?>
             </div>
         </div>

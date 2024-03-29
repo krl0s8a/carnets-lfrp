@@ -14,13 +14,6 @@ echo form_open($this->uri->uri_string(), $attrib);
                     <?= lang('us_tab_edit') ?>
                 </a>
             </li>
-            <?php if ($user->employee_id != 0) { ?>
-                <li>
-                    <a href="<?php echo base_url('employees/edit/') . $user->employee_id ?>">
-                        Información de empleado
-                    </a>
-                </li>
-            <?php } ?>
         </ul>
         <div class="tab-content">
             <div id="edit" class="tab-pane fade in">
@@ -117,31 +110,6 @@ echo form_open($this->uri->uri_string(), $attrib);
                                     set_value('pass_confirm'),
                                     lang('bf_password_confirm'), ''
                                 );
-                                if ($user->employee_id == 0) {
-                                    ?>
-                                    <label>El usuario no esta asociado a ningun empleado</label>
-                                    <?php
-                                    echo co_form_dropdown(
-                                        array(
-                                            'name' => 'employee_id',
-                                            'id' => 'employee_id',
-                                            'class' => 'form-control'
-                                        ),
-                                        $employees,
-                                        set_value('employee_id'),
-                                        'Seleccione empleado a vincular:'
-                                    );
-                                } else {
-                                    echo co_form_checkbox(
-                                        array(
-                                            'name' => 'employee_id',
-                                            'id' => 'employee_id'
-                                        ),
-                                        0,
-                                        false,
-                                        'Quitar empleado vinculado'
-                                    );
-                                }
                                 ?>
                             </div>
                             <div class="col-md-3">
