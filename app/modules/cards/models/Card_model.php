@@ -44,7 +44,7 @@ class Card_model extends MY_Model {
             'season_id' => $post['season_id'],
             'number' => $post['number'],
             'type_player' => $post['type_player'],
-            'datetime' => date('Y-m-d H:i:s'),
+            'datetime' => formatDate($post['date'],'d/m/Y','Y-m-d').' '.date('H:i:s'),
             'photo' => $file,
             'category' => $post['category'],
             'card' => 1
