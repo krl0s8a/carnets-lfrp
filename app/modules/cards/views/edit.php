@@ -54,7 +54,7 @@
             );
             ?>
             <div class="row">
-                <div class="col-md-5">
+                <div class="col-md-3">
                     <?php 
                     echo co_form_input(
                         array(
@@ -67,7 +67,7 @@
                     );
                     ?>
                 </div>
-                <div class="col-md-7">
+                <div class="col-md-4">
                     <?php 
                     echo co_form_dropdown(
                         array(
@@ -80,22 +80,7 @@
                     );
                     ?>
                 </div>
-            </div>
-            <div class="row">
                 <div class="col-md-5">
-                    <?php 
-                    echo co_form_input(
-                        array(
-                            'name' => 'datetime',
-                            'id' => 'datetime',
-                            'class' => 'form-control date'
-                        ),
-                        set_value('datetime', date('d/m/Y', strtotime($card->datetime))),
-                        lang('lbl_date')
-                    );
-                    ?>
-                </div>
-                <div class="col-md-7">
                     <?php 
                     echo co_form_dropdown(
                         array(
@@ -110,6 +95,37 @@
                         ),
                         set_value('category', $card->category),
                         lang('lbl_category')
+                    );
+                    ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-3">
+                    <?php 
+                    echo co_form_input(
+                        array(
+                            'name' => 'datetime',
+                            'id' => 'datetime',
+                            'class' => 'form-control date'
+                        ),
+                        set_value('datetime', date('d/m/Y', strtotime($card->datetime))),
+                        lang('lbl_date')
+                    );
+                    ?>
+                </div>
+                <div class="col-md-4">
+                    <?php 
+                    echo co_form_dropdown(
+                        array(
+                            'name' => 'status',
+                            'class' => 'form-control'
+                        ),
+                        array(
+                            'T' => 'Impreso',
+                            'F' => 'Pendiente'
+                        ),
+                        set_value('status', $card->status),
+                        lang('lbl_status')
                     );
                     ?>
                 </div>

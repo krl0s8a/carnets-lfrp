@@ -63,13 +63,16 @@
                                     <?php echo lang('lbl_datetime'); ?>
                                 </th>
                                 <th>
+                                    <?php echo lang('status') ?>
+                                </th>
+                                <th>
                                     <?php echo lang('actions'); ?>
                                 </th>
                             </tr>
                         </thead>
                         <tbody>
                             <tr>
-                                <td colspan="8" class="dataTables_empty">
+                                <td colspan="9" class="dataTables_empty">
                                     <?= lang('loading_data_from_server') ?>
                                 </td>
                             </tr>

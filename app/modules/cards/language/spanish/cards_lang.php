@@ -17,6 +17,7 @@ $lang['lbl_type_player'] = 'Tipo jugador/a';
 $lang['lbl_date'] = 'Fecha';
 $lang['lbl_datetime'] = 'Fecha/Hora confección';
 $lang['lbl_category'] = 'Categoria';
+$lang['lbl_status'] = 'Estado';
 
 // Options
 $lang['op_create_card'] = 'Crear nuevo carnet';

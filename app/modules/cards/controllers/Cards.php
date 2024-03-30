@@ -292,6 +292,7 @@ class Cards extends MY_Controller {
                 'type_player' => $_POST['type_player'],
                 'datetime' => formatDate($_POST['datetime'],'d/m/Y','Y-m-d'),
                 'category' => $_POST['category'],
+                'status' => $_POST['status'],
                 'card' => 1
             );
             
@@ -481,7 +482,7 @@ class Cards extends MY_Controller {
             $this->datatables->set_database('joomla');
             $action = '<div class="text-center"><a class="tip" title="Editar" href="'.site_url('cards/edit/$1').'" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i></a></div>';
             $this->datatables
-                ->select('concat_ws("/",t4.s_id,t3.id,t2.id) as id, concat_ws(" ",t2.last_name, t2.first_name) as full_name, t3.t_name, t4.s_name, t1.number, t1.type_player, t1.datetime')
+                ->select('concat_ws("/",t4.s_id,t3.id,t2.id) as id, concat_ws(" ",t2.last_name, t2.first_name) as full_name, t3.t_name, t4.s_name, t1.number, t1.type_player, t1.datetime, t1.status')
                 ->from('co_bl_players_team as t1')
                 ->join('co_bl_players as t2', 't2.id = t1.player_id', 'left')
                 ->join('co_bl_teams as t3', 't3.id = t1.team_id', 'left')
