@@ -21,8 +21,8 @@
                             </a>
                         </li>
                         <li>
-                            <a href="#" id="pending" data-action="status_pending"><i class="fa fa-saved"></i>
-                                Cambiar estado a pendiente
+                            <a href="#" id="status-pending" data-action="status_pending"><i class="fa fa-pencil"></i>
+                                Cambiar estado
                             </a>
                         </li>
                         <li class="divider"></li>

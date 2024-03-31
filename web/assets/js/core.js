@@ -663,6 +663,11 @@ $(document).ready(function () {
         $('#form_action').val($(this).attr('data-action'));
         $('#action-form-submit').trigger('click');
     });
+    $('body').on('click', '#status-pending', function (e) {
+        e.preventDefault();
+        $('#form_action').val($(this).attr('data-action'));
+        $('#action-form-submit').trigger('click');
+    });
     $('body').on('click', '#pdf', function (e) {
         e.preventDefault();
         $('#form_action').val($(this).attr('data-action'));
