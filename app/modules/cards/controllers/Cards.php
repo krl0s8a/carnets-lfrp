@@ -457,11 +457,27 @@ class Cards extends MY_Controller {
                                     'player_id' => $p,
                                     'season_id' => $s
                                 );
-                                $this->card_model->update($where,array('status' => 'T'));
+                                //$this->card_model->update($where,array('status' => 'T'));
                             }
                         }
                         exit();
                     }                    
+                }
+                if ($this->input->post('form_action') == 'status_pending') {
+                    if (!empty($_POST['val'])) {
+                        foreach ($_POST['val'] as $v) {
+                            list($s,$t,$p) = explode('/', $v);
+                            $where = array(
+                                'team_id' => $t,
+                                'player_id' => $p,
+                                'season_id' => $s
+                            );
+                            $this->card_model->update($where,array('status' => 'F'));
+                        }
+                        Template::set_message('Cambio de estado realizado', 'success');
+                        redirect($_SERVER['HTTP_REFERER']);
+                    }
+                    exit();
                 }
             } else {
                 $this->session->set_flashdata('danger', lang('no_user_selected'));

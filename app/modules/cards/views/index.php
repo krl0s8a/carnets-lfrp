@@ -20,6 +20,11 @@
                                 <?= lang('op_print_cards') ?>
                             </a>
                         </li>
+                        <li>
+                            <a href="#" id="pending" data-action="status_pending"><i class="fa fa-saved"></i>
+                                Cambiar estado a pendiente
+                            </a>
+                        </li>
                         <li class="divider"></li>
                         <li>
                             <a href="#" class="bpo" title="<?= $this->lang->line('op_delete_cards') ?>"
