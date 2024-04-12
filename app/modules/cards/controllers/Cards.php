@@ -149,7 +149,9 @@ class Cards extends MY_Controller {
             $this->pdf->output();
         }
     }
-    private function card($obj, $data, $x, $y){
+
+
+    private function card_chico($obj, $data, $x, $y){
         // Obtenemos los datos para el carnet
         list($season_id, $team_id, $player_id) = explode('/', $data);
         $card = $this->card_model->find_data_card($team_id,$player_id,$season_id);
@@ -177,6 +179,90 @@ class Cards extends MY_Controller {
                 break;
             default: // standar femenino
                 // code...
+                break;
+        }        
+        $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/template_card/'.$template,$x+0,$y+0, 78.99,53.34);
+
+        if (!empty($card->emblem) && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/photos/shields/'.$card->emblem)) {
+            $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/photos/shields/'.$card->emblem,$x+34,$y+1, 16,16);
+        }        
+        $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/qr.png',$x+62,$y+0, 17,17);
+        
+        if (!empty($card->photo && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/uploads/photos/'.$card->photo))) {
+            $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/uploads/photos/'.$card->photo,$x+0,$y+22.3, 20.4,20.4);
+        } else if(!empty($card->photo_player) && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/photos/players/'.$card->photo_player)){
+            $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/photos/players/'.$card->photo_player,$x+0,$y+22.3, 20.4,20.4);
+        }        
+        $obj->SetFont('Arial', 'B', 8);
+        // Calculo edad
+        if (in_array($card->category, array(3,4))) {
+            if (isset($card->birth) && !empty($card->birth)) {
+                $edad = edad($card->birth);                
+                if ($edad > 34) {     
+                    $obj->SetXY($x+6.8,$y+18.3);               
+                    $obj->Cell(6, 6, '> 35' , 0);
+                } else {
+                    $obj->SetXY($x+7.8,$y+18.3);
+                    $obj->Cell(6, 6, $edad , 0);
+                }
+            }
+            
+        }
+        $obj->SetFont('Arial', '', 6);
+        // Nombre del equipo
+        $obj->SetXY($x+27.5,$y+19.5);
+        $obj->Cell(40, 6, strtoupper(utf8_decode($card->short_name)), 0);
+        // Apellid
+        $obj->SetXY($x+30,$y+23.95);
+        $obj->Cell(35, 6, strtoupper(utf8_decode($card->last_name)), 0);
+        // Nombre
+        $obj->SetXY($x+30,$y+28.35);
+        $obj->Cell(35, 6, strtoupper(utf8_decode($card->first_name)), 0);
+        // Tipo jugador
+        $obj->SetXY($x+35,$y+33);
+        $obj->Cell(35, 6, strtoupper(type_player()[$card->type_player]), 0);
+        // N° carnet
+        $obj->SetFont('Arial', 'B', 8);
+        $obj->SetXY($x+31,$y+37.2);
+        $obj->Cell(35, 6, strtoupper($card->number), 0);
+        // Valido desde
+        $obj->SetFont('Arial', '', 6);
+        $obj->SetXY($x+34,$y+42.5);
+        $obj->Cell(35, 6, date('d/m/Y', strtotime($card->datetime)), 0);
+    }
+
+    private function card($obj, $data, $x, $y){
+        // Obtenemos los datos para el carnet
+        list($season_id, $team_id, $player_id) = explode('/', $data);
+        $card = $this->card_model->find_data_card($team_id,$player_id,$season_id);
+        switch ($card->category) {
+            case 1: // masculino
+                if (in_array($card->type_player, array(1, 2,4,6,8,10))) {
+                    $template = 'masculino-residente.png';
+                } else {
+                    $template = 'masculino-libre.png';
+                }
+                break;
+            case 2: // femenino
+                if (in_array($card->type_player, array(1, 3, 5,7,9,10))) {
+                    $template = 'femenino-residente.png';
+                } else {
+                    $template = 'femenino-libre.png';
+                }
+                break;
+            case 3: // standar masculino
+                if (in_array($card->type_player, array(1, 2,4,6,8,10))) {
+                    $template = 'masculino-residente-standar.png';
+                } else {
+                    $template = 'masculino-libre-standar.png';
+                }
+                break;
+            default: // standar femenino
+                if (in_array($card->type_player, array(1, 3, 5,7,9,10))) {
+                    $template = 'femenino-residente.png';
+                } else {
+                    $template = 'femenino-libre.png';
+                }
                 break;
         }        
         $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/template_card/'.$template,$x+0,$y+0, 78.99,53.34);
