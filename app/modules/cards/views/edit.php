@@ -91,7 +91,7 @@
                             1 => 'Masculino',
                             2 => 'Femenino',
                             3 => 'Standar Masculino',
-                            //4 => 'Standar Femenino'
+                            4 => 'Standar Femenino'
                         ),
                         set_value('category', $card->category),
                         lang('lbl_category')
