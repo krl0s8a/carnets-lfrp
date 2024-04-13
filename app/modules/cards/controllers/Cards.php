@@ -259,9 +259,9 @@ class Cards extends MY_Controller {
                 break;
             default: // standar femenino
                 if (in_array($card->type_player, array(1, 3, 5,7,9,10))) {
-                    $template = 'femenino-residente.png';
+                    $template = 'femenino-residente-standar.png';
                 } else {
-                    $template = 'femenino-libre.png';
+                    $template = 'femenino-libre-standar.png';
                 }
                 break;
         }        
