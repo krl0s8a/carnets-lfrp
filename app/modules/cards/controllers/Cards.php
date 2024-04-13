@@ -376,7 +376,7 @@ class Cards extends MY_Controller {
             $data = array(
                 'number' => $_POST['number'],
                 'type_player' => $_POST['type_player'],
-                'datetime' => formatDate($_POST['datetime'],'d/m/Y','Y-m-d'),
+                'datetime' => formatDate($_POST['datetime'],'d/m/Y','Y-m-d').' '.date('H:i:s'),
                 'category' => $_POST['category'],
                 'status' => $_POST['status'],
                 'card' => 1
