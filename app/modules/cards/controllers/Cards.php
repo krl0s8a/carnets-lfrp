@@ -142,51 +142,58 @@ class Cards extends MY_Controller {
                     $x = 15;
                     $y += 53.34;
                 } else {
-                    $x = 115;
+                    $x = 110; // para tamaño grande
+                    //$x = 115; // para tamaño chico
                 }
-                $this->card($this->pdf, $data[$i],$x,$y);  
+                //$this->card($this->pdf, $data[$i],$x,$y);
+                $this->card_big($this->pdf, $data[$i],$x,$y);  
             }             
             $this->pdf->output();
         }
     }
 
 
-    private function card_chico($obj, $data, $x, $y){
+    private function card_big($obj, $data, $x, $y){
         // Obtenemos los datos para el carnet
         list($season_id, $team_id, $player_id) = explode('/', $data);
         $card = $this->card_model->find_data_card($team_id,$player_id,$season_id);
         switch ($card->category) {
             case 1: // masculino
                 if (in_array($card->type_player, array(1, 2,4,6,8,10))) {
-                    $template = 'masculino-residente.png';
+                    $template = 'masculino-residente-grande.png';
                 } else {
-                    $template = 'masculino-libre.png';
+                    $template = 'masculino-libre-grande.png';
                 }
                 break;
             case 2: // femenino
                 if (in_array($card->type_player, array(1, 3, 5,7,9,10))) {
-                    $template = 'femenino-residente.png';
+                    $template = 'femenino-residente-grande.png';
                 } else {
-                    $template = 'femenino-libre.png';
+                    $template = 'femenino-libre-grande.png';
                 }
                 break;
             case 3: // standar masculino
                 if (in_array($card->type_player, array(1, 2,4,6,8,10))) {
-                    $template = 'masculino-residente-standar.png';
+                    $template = 'masculino-residente-standar-grande.png';
                 } else {
-                    $template = 'masculino-libre-standar.png';
+                    $template = 'masculino-libre-standar-grande.png';
                 }
                 break;
             default: // standar femenino
-                // code...
+                if (in_array($card->type_player, array(1, 3, 5,7,9,10))) {
+                    $template = 'femenino-residente-standar-grande.png';
+                } else {
+                    $template = 'femenino-libre-standar-grande.png';
+                }
                 break;
         }        
-        $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/template_card/'.$template,$x+0,$y+0, 78.99,53.34);
-
+        $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/template_card/'.$template,$x+0,$y+0, 85.09,53.34);
+        // Escudo del equipo
         if (!empty($card->emblem) && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/photos/shields/'.$card->emblem)) {
-            $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/photos/shields/'.$card->emblem,$x+34,$y+1, 16,16);
-        }        
-        $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/qr.png',$x+62,$y+0, 17,17);
+            $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/photos/shields/'.$card->emblem,$x+39,$y+1, 16,16);
+        }       
+        // Imagen qr 
+        $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/images/qr.png',$x+68.1,$y+0, 17,17);
         
         if (!empty($card->photo && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/uploads/photos/'.$card->photo))) {
             $obj->Image($_SERVER['DOCUMENT_ROOT'].'/assets/uploads/photos/'.$card->photo,$x+0,$y+22.3, 20.4,20.4);
@@ -534,7 +541,7 @@ class Cards extends MY_Controller {
                         Template::set_message('Imprimir en cantidades no mayor a 10', 'warning');
                         redirect($_SERVER['HTTP_REFERER']);
                     } else {
-                        $this->print_a4($_POST['val']);
+                        $this->print_a4($_POST['val']); // grande
                         if (!empty($_POST['val'])) {
                             foreach ($_POST['val'] as $v) {
                                 list($s,$t,$p) = explode('/', $v);
