@@ -4,7 +4,7 @@
         </h2>
     </div>
     <?php
-    $attrib = ['data-toggle' => 'validator', 'role' => 'form'];
+    $attrib = ['data-toggle' => 'validator', 'role' => 'form', 'id' => 'frm-team'];
     echo form_open_multipart($this->uri->uri_string(), $attrib);
     echo form_hidden('id', isset($team) ? $team->id : '');
     ?>    
@@ -85,7 +85,7 @@
                         </div>
                         <div role="tabpanel" class="tab-pane" id="tab-2">
                             <div class="row">
-                                <div class="col-md-3">
+                                <div class="col-md-4">
                                     <?php 
                                     echo co_form_dropdown(
                                         array(
@@ -93,12 +93,83 @@
                                             'id' => 'season_id',
                                             'class' => 'form-control'
                                         ),
-                                        array(),
+                                        $seasons,
                                         set_value('season_id'),
-                                        'Seleccione la temporada'
+                                        'Seleccione el torneo'
                                     );
-                                    ?>
+                                    ?>                                    
                                 </div>
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-success">
+                                        <div class="panel-heading">Jugadores</div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-12" id="players"></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
+                            </div>
+                            <div class="row">
+                                <div class="col-md-12">
+                                    <div class="panel panel-warning">
+                                        <div class="panel-heading">Agregar jugador</div>
+                                        <div class="panel-body">
+                                            <div class="row">
+                                                <div class="col-md-3">
+                                                    <?= lang('lbl_player', 'posplayer'); ?>
+                                                    <div class="input-group">
+                                                        <input type="hidden" name="player" value="" id="posplayer"
+                                                            class="form-control" style="width:100%;" placeholder="Seleccione jugador">
+                                                        <input type="hidden" name="player_id" value="" id="player_id"
+                                                            class="form-control">
+                                                        <div class="input-group-addon no-print" style="padding: 2px 5px; border-left: 0;">
+                                                            <a href="#" id="view-player" class="external" data-toggle="modal"
+                                                                data-target="#myModal">
+                                                                <i class="fa fa-2x fa-user" id="addIcon"></i>
+                                                            </a>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <?php 
+                                                    echo co_form_input(
+                                                        array(
+                                                            'name' => 'number',
+                                                            'class' => 'form-control'
+                                                        ),
+                                                        set_value('number'),
+                                                        'Carnet'
+                                                    ); 
+                                                    ?>
+                                                </div>
+                                                <div class="col-md-2">
+                                                    <?php
+                                                    echo co_form_dropdown(
+                                                        array(
+                                                            'name' => 'type_player',
+                                                            'class' => 'form-control'
+                                                        ),
+                                                        $type_player,
+                                                        set_value('type_player'),
+                                                        'Tipo jugador'
+                                                    );
+                                                    ?>
+                                                </div>                                                
+                                            </div>
+                                            <div class="row">
+                                                <div class="col-md-1">
+                                                    <button class="btn btn-default" id="btn-add-player">
+                                                        <i class="fa fa-plus"></i> Agregar
+                                                    </button>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>                                
                             </div>
                         </div>
                     </div>

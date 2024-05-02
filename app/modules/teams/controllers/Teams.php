@@ -7,9 +7,8 @@ class Teams extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->lang->load('teams');
-        $this->load->model('team_model');
-        //$this->config->load('teams');
-        $this->load->helper(array('array', 'personal'));
+        $this->load->model(array('team_model','seasons/season_teams_model', 'players/players_team_model','players/player_model'));
+        $this->load->helper(array('array','players/player'));
         Assets::add_module_js('teams', 'teams.js');
         Assets::add_module_css('teams', 'teams.css');
         Template::set_block('sub_nav', '_sub_nav');
@@ -63,7 +62,11 @@ class Teams extends MY_Controller {
                 Template::set_message(lang('team_edit_failure'), 'danger');
             }
         } 
-      
+        // Seleccion de los torneos en los que participo el equipo
+        
+        $seasons = array_by_key_value('id','name',$this->season_teams_model->findTeamsBySeason($id));
+        Template::set('seasons', $seasons);
+        Template::set('type_player', type_player());
         Template::set('team', $this->team_model->find($id));
         Template::render();
     }
@@ -209,13 +212,10 @@ class Teams extends MY_Controller {
                 . lang('r_u_sure') . "</p><a class='btn btn-danger po-delete-user' id='a__$1' href='" . site_url('teams/delete/$1') . "'>"
                 . lang('i_m_sure') . "</a> <button class='btn po-close'>" . lang('no') . "</button>\"  rel='popover'><i class=\"fa fa-trash-o\"></i> "
                 . lang('delete_team') . '</a>';
-
             $action = '<div class="text-center"><div class="btn-group text-left">'
                 . '<button type="button" class="btn btn-default btn-xs btn-primary dropdown-toggle" data-toggle="dropdown">'
                 . lang('actions') . ' <span class="caret"></span></button><ul class="dropdown-menu pull-right" role="menu">';
-
             $action .= '<li>' . $edit_user . '</li>';
-
             $action .= '<li>' . $delete_link . '</li>';
 
             $action .= '</ul></div></div>';
@@ -224,12 +224,43 @@ class Teams extends MY_Controller {
             $this->datatables
                 ->select('t1.id as id, t1.t_name, t1.short_name, t1.t_descr, t1.t_city')
                 ->from('co_bl_teams as t1')
-                //->where('t1.position', 'Chofer')
-                //->edit_column('last_name', '$1__$2', 'last_name, id')
+                ->edit_column('t1.t_name','$1__$2','t1.t_name, id')
                 ->add_column('Actions', $action, 'id');
 
             echo $this->datatables->generate();
         }
     }
 
+    function players_by_team() {
+        if (!$this->input->is_ajax_request()) {
+            redirect('404');
+        } else {
+            $team_id = $this->input->post('id');
+            $season_id = $this->input->post('season_id');
+            $data['type_player'] = type_player();
+            $data['players'] = $this->players_team_model->playersByTeam($season_id, $team_id);
+            echo $this->load->view('_players_by_team', $data, TRUE);
+        }
+    }
+
+    function add_player(){
+        if (!$this->input->is_ajax_request()) {
+            redirect('404');
+        } else {
+            $data = array(
+                'team_id' => $_POST['id'],
+                'player_id' => $_POST['player_id'],
+                'season_id' => $_POST['season_id'],
+                'number' => $_POST['number'],
+                'type_player' => $_POST['type_player']
+            );
+            $id = $this->players_team_model->insert($data);
+            // Recuperamos los jugadores
+            $players['type_player'] = type_player();
+            $players['players'] = $this->players_team_model->playersByTeam($_POST['season_id'], $_POST['id']);
+
+            echo $this->load->view('_players_by_team', $players, TRUE);
+
+        }
+    }
 }

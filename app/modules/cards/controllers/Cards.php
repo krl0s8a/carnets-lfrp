@@ -591,11 +591,12 @@ class Cards extends MY_Controller {
             $this->datatables->set_database('joomla');
             $action = '<div class="text-center"><a class="tip" title="Editar" href="'.site_url('cards/edit/$1').'" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i></a></div>';
             $this->datatables
-                ->select('concat_ws("/",t4.s_id,t3.id,t2.id) as id, concat_ws(" ",t2.last_name, t2.first_name) as full_name, t3.t_name, t4.s_name, t1.number, t1.type_player, t1.datetime, t1.status')
+                ->select('concat_ws("/",t4.s_id,t3.id,t2.id) as id, concat_ws(" ",t2.last_name, t2.first_name) as full_name, t3.t_name, concat_ws(" - ",t4.s_name,t5.name) as tournament, t1.number, t1.type_player, t1.datetime, t1.status')
                 ->from('co_bl_players_team as t1')
                 ->join('co_bl_players as t2', 't2.id = t1.player_id', 'left')
                 ->join('co_bl_teams as t3', 't3.id = t1.team_id', 'left')
                 ->join('co_bl_seasons as t4', 't4.s_id = t1.season_id', 'left')
+                ->join('co_bl_tournament as t5', 't5.id = t4.t_id','left')
                 ->where('t1.card',1)
                 ->add_column('Actions', $action, 'id');
             echo $this->datatables->generate();

@@ -87,7 +87,7 @@
                                         ),
                                         array(),
                                         set_value('season_id'),
-                                        'Seleccione la temporada'
+                                        'Seleccione el torneo'
                                     );
                                     ?>
                                 </div>

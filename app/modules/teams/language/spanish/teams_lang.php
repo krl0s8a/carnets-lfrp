@@ -12,6 +12,7 @@ $lang['lbl_t_city'] = 'Lugar de origen';
 $lang['lbl_t_emblem'] = 'Escudo equipo';
 $lang['lbl_t_emblem_change'] = 'Cambiar escudo equipo';
 $lang['lbl_t_descr'] = 'Sobre el equipo';
+$lang['lbl_player'] = 'Jugador/a';
 
 $lang['index_teams'] = 'Listado de equipos';
 
@@ -28,4 +29,4 @@ $lang['team_edit_success'] = '<b>Exito.</b> Equipo actualizado.';
 $lang['team_edit_failure'] = '<b>Error.</b> El equipo no se actualizo';
 
 $lang['tab-1'] = 'Principal';
-$lang['tab-2'] = 'Configuración relacionada con la temporada';
+$lang['tab-2'] = 'Configuración relacionada con el torneo';

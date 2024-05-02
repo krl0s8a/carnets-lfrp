@@ -52,4 +52,20 @@ class Player_model extends MY_Model {
             return $data;
         }
     }
+
+    public function getPlayersDropdown(){
+        $this->db->select('t1.*');
+        $this->db->from($this->table_name.' as t1');
+        $this->db->order_by('t1.last_name','asc');
+        $query = $this->db->get();
+
+        $players = $query->result();
+        $arr = [];
+        foreach ($players as $k => $v) {
+            $dni = !empty($v->dni) ? ' ['.$v->dni.']' : '';
+            $arr[$v->id] = $v->last_name.' '.$v->first_name.$dni;  
+        }
+
+        return $arr;
+    }
 }
