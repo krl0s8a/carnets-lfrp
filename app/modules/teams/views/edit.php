@@ -119,7 +119,7 @@
                                         <div class="panel-heading">Agregar jugador</div>
                                         <div class="panel-body">
                                             <div class="row">
-                                                <div class="col-md-3">
+                                                <div class="col-md-4">
                                                     <?= lang('lbl_player', 'posplayer'); ?>
                                                     <div class="input-group">
                                                         <input type="hidden" name="player" value="" id="posplayer"

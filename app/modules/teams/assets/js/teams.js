@@ -119,7 +119,7 @@ $(document).on('click', '.po-delete-avatar', function (e) {
     e.preventDefault();
     $.ajax({
         type: 'post',
-        url: site.base_url + 'teams/add_player',
+        url: site.base_url + 'teams/add_player_in_team',
         dataType: 'html',
         data : $('#frm-team').serialize(),
         success: function (data) {
@@ -134,7 +134,53 @@ $(document).on('click', '.po-delete-avatar', function (e) {
             }*/
         },
         error: function (data) {
+            addAlert('Fallo al agregar el jugador', 'danger');
+        },
+    });
+}).on('click', '.delete-player-team', function(e){
+    e.preventDefault();
+    var id = $(this).attr('id');    
+    $.ajax({
+        type: 'post',
+        url: site.base_url + 'teams/delete_player_of_team',
+        dataType: 'html',
+        data : {id:id},
+        success: function (data) {
+            $('#players').html(data);
+            /*if (data.error == 1) {
+                addAlert(data.msg, 'danger');
+            } else {
+                addAlert(data.msg, 'success');
+                if (oTable != '') {
+                    oTable.fnDraw();
+                }
+            }*/
+        },
+        error: function (data) {
             addAlert('Ajax call failed', 'danger');
+        },
+    });
+}).on('click', '#btn-edit-player-team', function(e){
+    e.preventDefault();
+    $.ajax({
+        type: 'post',
+        url: site.base_url + 'teams/save_edit_player_of_team',
+        dataType: 'html',
+        data : $('#frm-edit-player-team').serialize(),
+        success: function (data) {
+            $('#myModal').modal('hide');
+            $('#players').html(data);
+            /*if (data.error == 1) {
+                addAlert(data.msg, 'danger');
+            } else {
+                addAlert(data.msg, 'success');
+                if (oTable != '') {
+                    oTable.fnDraw();
+                }
+            }*/
+        },
+        error: function (data) {
+            addAlert('Fallo al agregar el jugador', 'danger');
         },
     });
 });

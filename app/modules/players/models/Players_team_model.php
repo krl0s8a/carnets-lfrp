@@ -42,4 +42,18 @@ class Players_team_model extends MY_Model {
 
         return $query->result();
     }
+    // Jugador con los datos asociados a un equipo en un torneo
+    public function playerByTeam($season_id, $team_id, $player_id){
+        $sql = "SELECT t1.season_id, t1.team_id, t1.player_id, t1.number, t1.type_player, t2.first_name, t2.last_name, t2.dni
+            FROM $this->table_name as t1
+            LEFT JOIN co_bl_players as t2
+            ON t1.player_id = t2.id
+            WHERE t1.team_id = $team_id
+            AND t1.season_id = $season_id
+            AND t1.player_id = $player_id
+        ";
+        $query = $this->db->query($sql);
+
+        return $query->row();
+    }
 }

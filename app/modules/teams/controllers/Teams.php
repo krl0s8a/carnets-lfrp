@@ -243,7 +243,7 @@ class Teams extends MY_Controller {
         }
     }
 
-    function add_player(){
+    function add_player_in_team(){
         if (!$this->input->is_ajax_request()) {
             redirect('404');
         } else {
@@ -261,6 +261,65 @@ class Teams extends MY_Controller {
 
             echo $this->load->view('_players_by_team', $players, TRUE);
 
+        }
+    }
+
+    function delete_player_of_team(){
+        if (!$this->input->is_ajax_request()) {
+            redirect('404');
+        } else {
+            list($season, $team, $player) = explode('-', $_POST['id']);
+            $where = array(
+                'team_id' => $team,
+                'player_id' => $player,
+                'season_id' => $season
+            );
+            $this->players_team_model->delete_where($where);
+            // Recuperamos los jugadores
+            $players['type_player'] = type_player();
+            $players['players'] = $this->players_team_model->playersByTeam($season, $team);
+
+            echo $this->load->view('_players_by_team', $players, TRUE);
+        }
+    }
+
+    // Editar los datos de asignacion de un jugador en un equipo
+    function edit_player_of_team($season_id, $team_id, $player_id){
+        if (!$this->input->is_ajax_request()) {
+            redirect('404');
+        } else {
+            $data['player'] = $this->players_team_model->playerByTeam($season_id, $team_id, $player_id);
+            $data['type_player'] = type_player();
+            echo $this->load->view('_edit_player_of_team', $data, TRUE);
+        }
+    }
+
+    function save_edit_player_of_team(){
+        if (!$this->input->is_ajax_request()) {
+            redirect('404');
+        } else {
+            $player = array(
+                'last_name' => $_POST['last_name'],
+                'first_name' => $_POST['first_name'],
+                'dni' => $_POST['dni']
+            );
+            $player_team = array(
+                'number' => $_POST['number'],
+                'type_player' => $_POST['type_player']
+            );
+            $where = array(
+                'season_id' => $_POST['season_id'],
+                'team_id' => $_POST['team_id'],
+                'player_id' => $_POST['player_id']
+            );
+            // Actualizacion jugador
+            $this->player_model->update($_POST['player_id'], $player);
+            // Actualizacion jugador / equipo / torneo
+            $this->players_team_model->update($where, $player_team);
+            $players['type_player'] = type_player();
+            $players['players'] = $this->players_team_model->playersByTeam($_POST['season_id'], $_POST['team_id']);
+
+            echo $this->load->view('_players_by_team', $players, TRUE);
         }
     }
 }

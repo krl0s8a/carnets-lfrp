@@ -13,6 +13,11 @@ $lang['lbl_t_emblem'] = 'Escudo equipo';
 $lang['lbl_t_emblem_change'] = 'Cambiar escudo equipo';
 $lang['lbl_t_descr'] = 'Sobre el equipo';
 $lang['lbl_player'] = 'Jugador/a';
+$lang['lbl_last_name'] = 'Apellido';
+$lang['lbl_first_name'] = 'Nombre';
+$lang['lbl_dni'] = 'DNI';
+$lang['lbl_type_player'] = 'Tipo jugador';
+$lang['lbl_number'] = 'Carnet';
 
 $lang['index_teams'] = 'Listado de equipos';
 
