@@ -1,9 +1,9 @@
 <table class="table table-condensed">
 	<tr>
-		<th>Apellido y Nombre</th>
-		<th>DNI</th>
-		<th>Tipo jugador</th>
-		<th>Carnet</th>
+		<th><?php echo lang('lbl_full_name') ?></th>
+		<th><?php echo lang('lbl_dni') ?></th>
+		<th><?php echo lang('lbl_type_player') ?></th>
+		<th><?php echo lang('lbl_number') ?></th>
 		<th></th>
 	</tr>
 	<?php foreach ($players as $p): ?>

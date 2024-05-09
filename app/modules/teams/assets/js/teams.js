@@ -183,6 +183,24 @@ $(document).on('click', '.po-delete-avatar', function (e) {
             addAlert('Fallo al agregar el jugador', 'danger');
         },
     });
+}).on('click', '#view-player', function(e){
+    e.preventDefault();
+    var player_id = $('#posplayer').val(); 
+    $.ajax({
+        type: 'post',
+        url: site.base_url + 'teams/view_player',
+        dataType: 'html',
+        data : {player_id:player_id},
+        success: function (data) {
+            $('#myModal').modal('hide');
+            if (oTable != '') {
+                oTable.fnDraw();
+            }
+        },
+        error: function (data) {
+            addAlert('Fallo al editar el jugador', 'danger');
+        },
+    });
 });
 
 function nsSupplier() {

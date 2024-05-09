@@ -64,7 +64,7 @@ class Teams extends MY_Controller {
         } 
         // Seleccion de los torneos en los que participo el equipo
         
-        $seasons = array_by_key_value('id','name',$this->season_teams_model->findTeamsBySeason($id));
+        $seasons = array_by_key_value('id','name',$this->season_teams_model->findTeamsBySeason($id),'--Selecione--');
         Template::set('seasons', $seasons);
         Template::set('type_player', type_player());
         Template::set('team', $this->team_model->find($id));
@@ -237,9 +237,14 @@ class Teams extends MY_Controller {
         } else {
             $team_id = $this->input->post('id');
             $season_id = $this->input->post('season_id');
-            $data['type_player'] = type_player();
-            $data['players'] = $this->players_team_model->playersByTeam($season_id, $team_id);
-            echo $this->load->view('_players_by_team', $data, TRUE);
+            if (!empty($season_id)) {
+                $data['type_player'] = type_player();
+                $data['players'] = $this->players_team_model->playersByTeam($season_id, $team_id);
+                echo $this->load->view('_players_by_team', $data, TRUE);
+            } else {
+                echo 'Seleccione un torneo para ver el listado de jugadores';
+            }
+            
         }
     }
 
@@ -320,6 +325,18 @@ class Teams extends MY_Controller {
             $players['players'] = $this->players_team_model->playersByTeam($_POST['season_id'], $_POST['team_id']);
 
             echo $this->load->view('_players_by_team', $players, TRUE);
+        }
+    }
+
+    function view_player(){
+        if (!$this->input->is_ajax_request()) {
+            redirect('404');
+        } else {
+            $player_id = $this->input->post('player_id');
+
+            $data['player'] = $this->player_model->find($player_id);
+
+            echo $this->load->view('_view_player', $data, TRUE);
         }
     }
 }
