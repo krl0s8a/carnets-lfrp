@@ -9,8 +9,12 @@
 	<?php foreach ($players as $p): ?>
 	<tr>
 		<td><?= $p->last_name.' '.$p->first_name ?></td>
-		<td><?= $p->dni ?></td>
-		<td><?php echo isset($p->type_player) ? $type_player[$p->type_player] : '' ?></td>
+		<td><?php echo isset($p->dni) ? $p->dni : '' ?></td>
+		<td>
+			<?php 
+			echo isset($p->type_player) && isset($type_player[$p->type_player]) ? $type_player[$p->type_player] : '' 
+			?>				
+		</td>
 		<td><?= $p->number ?></td>
 		<td>
 			<span title="Eliminar" class='btn-link delete-player-team' id="<?php echo $p->season_id.'-'.$p->team_id.'-'.$p->player_id ?>"><i class="fa fa-trash"></i></span>

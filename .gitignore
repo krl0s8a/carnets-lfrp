@@ -44,6 +44,9 @@ web/assets/cache/*
 web/assets/uploads/*
 !web/assets/uploads/index.html
 
+web/assets/photos/*
+!web/assets/photos/index.html
+
 # captcha
 web/captcha/*
 !web/captcha/index.html
