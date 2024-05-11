@@ -9,7 +9,7 @@ class Season_model extends MY_Model {
     protected $table_name = 'co_bl_seasons';
 
     /** @var string Name of the primary key. */
-    protected $key = 'id';
+    protected $key = 's_id';
 
     /** @var bool Use soft deletes (if true). */
     protected $soft_deletes = false;
