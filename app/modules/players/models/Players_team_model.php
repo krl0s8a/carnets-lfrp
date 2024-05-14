@@ -48,6 +48,8 @@ class Players_team_model extends MY_Model {
             FROM $this->table_name as t1
             LEFT JOIN co_bl_players as t2
             ON t1.player_id = t2.id
+            LEFT JOIN co_bl_teams as t3 
+            ON t3.id = t1.team_id
             WHERE t1.team_id = $team_id
             AND t1.season_id = $season_id
             ORDER BY t2.last_name ASC

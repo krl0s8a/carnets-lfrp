@@ -35,7 +35,7 @@ $uri2 = $this->uri->segment(2);
         <li id="submenu_customers" class="<?php echo class_exists('matchday') ? 'active' : ''; ?>">
             <a class="submenu" href="<?= site_url('matchday'); ?>">
                 <i class="fa fa-th-list"></i><span class="text">
-                    Partidos
+                    Jornadas
                 </span>
             </a>
         </li>
