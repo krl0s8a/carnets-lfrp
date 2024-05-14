@@ -40,7 +40,13 @@
                          <tr>
                             <td><?= $i++; ?></td>
                             <td style="text-align:right;">
-                                <?php echo anchor(site_url('matchday/players_by_team/'.$match->team1_id.'/'.$match->m_id), $match->team1, array('data-toggle' => 'modal','data-target' => '#myModal','title' => 'Lista de jugadores')); ?>                                    
+                                <?php 
+                                if ($match->team1_id > 0) {
+                                    echo anchor(site_url('matchday/players_by_team/'.$match->team1_id.'/'.$match->m_id), $match->team1, array('data-toggle' => 'modal','data-target' => '#myModal','title' => 'Lista de jugadores')); 
+                                } else {
+                                    echo '---';
+                                }                                
+                                ?>                                    
                             </td>
                             <td style="text-align:center;">
                                 <?php 
@@ -52,7 +58,13 @@
                                 ?>
                             </td>
                             <td>
-                                <?php echo anchor(site_url('matchday/players_by_team/'.$match->team2_id.'/'.$match->m_id), $match->team2, array('data-toggle' => 'modal','data-target' => '#myModal','title' => 'Lista de jugadores')); ?>      
+                                <?php 
+                                if ($match->team2_id > 0) {
+                                    echo anchor(site_url('matchday/players_by_team/'.$match->team2_id.'/'.$match->m_id), $match->team2, array('data-toggle' => 'modal','data-target' => '#myModal','title' => 'Lista de jugadores')); 
+                                } else {
+                                    echo '---';
+                                }                                
+                                ?>      
                             </td>
                             <td>
                                 <?php echo ($match->m_played == 0) ? 'Calendario' : 'Jugado'; ?>
