@@ -152,7 +152,6 @@ class Cards extends MY_Controller {
         }
     }
 
-
     private function card_big($obj, $data, $x, $y){
         // Obtenemos los datos para el carnet
         list($season_id, $team_id, $player_id) = explode('/', $data);
@@ -386,6 +385,7 @@ class Cards extends MY_Controller {
                 'datetime' => formatDate($_POST['datetime'],'d/m/Y','Y-m-d').' '.date('H:i:s'),
                 'category' => $_POST['category'],
                 'status' => $_POST['status'],
+                'obs' => $_POST['obs'],
                 'card' => 1
             );
             
@@ -483,7 +483,18 @@ class Cards extends MY_Controller {
 
     private function save($type = 'insert', $id = 0) {
 
+        $this->form_validation->set_rules('player', lang('lbl_player'),'required');
+        $this->form_validation->set_rules('season_id', 'Torneo','required');
+        $this->form_validation->set_rules('team_id', 'Equipo','required');
+        $this->form_validation->set_rules('number', lang('lbl_number'),'required');
+        $this->form_validation->set_rules('date', lang('lbl_date'),'required');
+
+        if ($this->form_validation->run() === false) {
+            return false;
+        }
+
         $data = $this->card_model->prep_data($_POST);
+
         if ($type == 'insert') {
             $where = array(
                 'team_id' => $_POST['team_id'], 

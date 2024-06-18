@@ -1,4 +1,4 @@
-<div class="modal-dialog modal-md">
+<div class="modal-dialog modal-lg">
     <div class="modal-content">
         <div class="modal-header">
             <button type="button" class="close" data-dismiss="modal" aria-hidden="true"><i class="fa fa-2x">&times;</i>
@@ -13,46 +13,66 @@
         ?>        
         <div class="modal-body">
             <div class="alerts-modal"></div>
-            <div class="form-group">
-                <?php
-                if (!empty($card->photo) && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/uploads/photos/'.$card->photo)) {
-                    $url = base_url('assets/uploads/photos/'.$card->photo);
-                } else if(!empty($card->photo_player) && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/photos/players/'.$card->photo_player)){
-                    $url = base_url('assets/photos/players/'.$card->photo_player);
-                } else {
-                    $url = base_url('assets/images/no-image.png');
-                    $no_photo = '<p>Jugador/a sin foto. Agregue la foto desde <a href="'.base_url('players/edit/'.$card->player_id).'">aqui</a> para que salga en el carnet.</p>';
-                }
-                ?>
-                <img width="50%" src="<?= $url ?>"  class="img-round"> 
-                <?php if (isset($no_photo)): ?>
-                    <?php echo $no_photo; ?>
-                <?php endif ?>
-            </div>
-            <?php             
-            echo co_form_dropdown(
-                array(
-                    'name' => 'season_id',
-                    'id' => 'season_id',
-                    'class' => 'form-control',
-                    'readonly' => 'readonly'
-                ),
-                $seasons,
-                set_value('season_id', $card->season_id),
-                'Seleccione el torneo'
-            );
-            echo co_form_dropdown(
-                array(
-                    'name' => 'team_id',
-                    'id' => 'team_id',
-                    'class' => 'form-control',
-                    'readonly' => 'readonly'
-                ),
-                $teams,
-                set_value('team_id', $card->team_id),
-                'Seleccione el equipo'
-            );
-            ?>
+            <div class="row">
+                <div class="col-md-6">
+                    <div class="form-group">
+                        <?php
+                        if (!empty($card->photo) && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/uploads/photos/'.$card->photo)) {
+                            $url = base_url('assets/uploads/photos/'.$card->photo);
+                        } else if(!empty($card->photo_player) && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/photos/players/'.$card->photo_player)){
+                            $url = base_url('assets/photos/players/'.$card->photo_player);
+                        } else {
+                            $url = base_url('assets/images/no-image.png');
+                            $no_photo = '<p>Jugador/a sin foto. Agregue la foto desde <a href="'.base_url('players/edit/'.$card->player_id).'">aqui</a> para que salga en el carnet.</p>';
+                        }
+                        ?>
+                        <img width="50%" src="<?= $url ?>"  class="img-round"> 
+                        <?php if (isset($no_photo)): ?>
+                            <?php echo $no_photo; ?>
+                        <?php endif ?>
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <?php             
+                    echo co_form_dropdown(
+                        array(
+                            'name' => 'season_id',
+                            'id' => 'season_id',
+                            'class' => 'form-control',
+                            'readonly' => 'readonly'
+                        ),
+                        $seasons,
+                        set_value('season_id', $card->season_id),
+                        'Torneo'
+                    );
+                    echo co_form_dropdown(
+                        array(
+                            'name' => 'team_id',
+                            'id' => 'team_id',
+                            'class' => 'form-control',
+                            'readonly' => 'readonly'
+                        ),
+                        $teams,
+                        set_value('team_id', $card->team_id),
+                        'Equipo'
+                    );
+                    echo co_form_dropdown(
+                        array(
+                            'name' => 'category',
+                            'class' => 'form-control'
+                        ),
+                        array(
+                            1 => 'Masculino Libre',
+                            2 => 'Femenino Libre',
+                            3 => 'Masculino Estandar',
+                            4 => 'Femenino Estandar'
+                        ),
+                        set_value('category', $card->category),
+                        lang('lbl_category')
+                    );
+                    ?>
+                </div>
+            </div>           
             <div class="row">
                 <div class="col-md-3">
                     <?php 
@@ -67,7 +87,7 @@
                     );
                     ?>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <?php 
                     echo co_form_dropdown(
                         array(
@@ -80,26 +100,6 @@
                     );
                     ?>
                 </div>
-                <div class="col-md-5">
-                    <?php 
-                    echo co_form_dropdown(
-                        array(
-                            'name' => 'category',
-                            'class' => 'form-control'
-                        ),
-                        array(
-                            1 => 'Masculino',
-                            2 => 'Femenino',
-                            3 => 'Standar Masculino',
-                            4 => 'Standar Femenino'
-                        ),
-                        set_value('category', $card->category),
-                        lang('lbl_category')
-                    );
-                    ?>
-                </div>
-            </div>
-            <div class="row">
                 <div class="col-md-3">
                     <?php 
                     echo co_form_input(
@@ -113,7 +113,7 @@
                     );
                     ?>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-3">
                     <?php 
                     echo co_form_dropdown(
                         array(
@@ -121,13 +121,21 @@
                             'class' => 'form-control'
                         ),
                         array(
-                            'T' => 'Impreso',
+                            'T' => 'Habilitado',
                             'F' => 'Pendiente'
                         ),
                         set_value('status', $card->status),
                         lang('lbl_status')
                     );
                     ?>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <label for="obs" class="control-label">Observacion</label>
+                    <div class="form-group">
+                        <textarea name="obs" id="obs" class="form-control"><?php echo $card->obs ?></textarea>
+                    </div>
                 </div>
             </div>
         </div>

@@ -5,9 +5,9 @@ function render_type_player(x){
 
 function status_card(x){
     if (x == 'T') {
-        return '<span class="text-success text-center">Impreso</span>';
+        return '<p class="bg-success text-center">Habilitado</p>';
     } else {
-        return '<span class="text-warning text-center">Pendiente</span>';
+        return '<p class="bg-danger text-center">Pendiente</p>';
     }
 }
 

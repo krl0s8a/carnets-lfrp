@@ -48,7 +48,7 @@
                                     ),
                                     $seasons,
                                     set_value('season_id'),
-                                    'Seleccione el torneo'
+                                    'Torneo'
                                 );
                                 echo co_form_dropdown(
                                     array(
@@ -58,7 +58,7 @@
                                     ),
                                     $teams,
                                     set_value('team_id'),
-                                    'Seleccione el equipo'
+                                    'Equipo'
                                 );                                 
                                 ?>
                                 <div class="row">
@@ -114,10 +114,10 @@
                                             'class' => 'form-control'
                                         ),
                                         array(
-                                            1 => 'Masculino',
-                                            2 => 'Femenino',
-                                            3 => 'Standar Masculino',
-                                            4 => 'Standar Femenino'
+                                            1 => 'Masculino Libre',
+                                            2 => 'Femenino Libre',
+                                            3 => 'Masculino Estandar',
+                                            4 => 'Femenino Estandar'
                                         ),
                                         set_value('category'),
                                         lang('lbl_category')
@@ -125,6 +125,32 @@
                                     ?>
                                     </div>
                                 </div>
+                                <div class="row">
+                                    <div class="col-md-5">
+                                        <?php 
+                                        echo co_form_dropdown(
+                                            array(
+                                                'name' => 'status',
+                                                'class' => 'form-control'
+                                            ),
+                                            array(
+                                                'T' => 'Habilitado',
+                                                'F' => 'Pendiente'
+                                            ),
+                                            set_value('status'),
+                                            lang('lbl_status')
+                                        );
+                                        ?>
+                                    </div>  
+                                </div>
+                                <div class="row">
+                                    <div class="col-md-12">
+                                        <label for="obs" class="control-label">Observacion</label>
+                                        <div class="form-group">
+                                            <textarea name="obs" id="obs" class="form-control" value="<?php echo set_value('obs') ?>"></textarea>
+                                        </div>
+                                    </div>
+                                </div>  
                             </div>
                             <div class="col-md-8">  
                                 <div class="form-group">

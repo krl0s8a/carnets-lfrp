@@ -37,6 +37,7 @@
                     </thead>
                     <tbody>
                         <?php $i = 1; foreach ($matches as $match): ?>
+                        <?php if ($match->team1_id > 0 && $match->team2_id > 0): ?>
                          <tr>
                             <td><?= $i++; ?></td>
                             <td style="text-align:right;">
@@ -75,7 +76,8 @@
                             <td style="text-align: center;">
                                 <a href="<?php echo site_url('matchday/print_game_sheet/'.$match->id) ?>" title="Imprimir planilla de juego"><i class="fa fa-print"></i></a>
                             </td>
-                        </tr>   
+                        </tr>      
+                        <?php endif ?>                         
                         <?php endforeach ?>                        
                     </tbody>
                 </table>

@@ -47,6 +47,7 @@ class Card_model extends MY_Model {
             'datetime' => formatDate($post['date'],'d/m/Y','Y-m-d').' '.date('H:i:s'),
             'photo' => $file,
             'category' => $post['category'],
+            'obs' => $post['obs'],
             'card' => 1
         );
         return $data; 
