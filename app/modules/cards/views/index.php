@@ -1,7 +1,7 @@
 <?php echo form_open('cards/actions', array('id' => 'action-form')); ?>
 <div class="box">
     <div class="box-header">
-        <h2 class="blue"><i class="fa-fw fa fa-plus"></i>
+        <h2 class="blue"><i class="fa-fw fa fa-list"></i>
             Confeccion de carnets
         </h2>
         <div class="box-icon">
@@ -18,11 +18,6 @@
                         <li>
                             <a href="#" id="print" data-action="print_cards"><i class="fa fa-print"></i>
                                 <?= lang('op_print_cards') ?>
-                            </a>
-                        </li>
-                        <li>
-                            <a href="#" id="status-pending" data-action="status_pending"><i class="fa fa-pencil"></i>
-                                Cambiar estado
                             </a>
                         </li>
                         <li class="divider"></li>
@@ -49,13 +44,13 @@
                                 <th style="min-width:30px; width: 30px; text-align: center;">
                                     <input class="checkbox checkth" type="checkbox" name="check" />
                                 </th>
-                                <th style="width: 21%; text-align: left;">
+                                <th style="width: 20%; text-align: left;">
                                     <?php echo lang('lbl_player'); ?>
                                 </th>
-                                <th style="width: 21%; text-align: left;">
+                                <th style="width: 20%; text-align: left;">
                                     <?php echo lang('lbl_team'); ?>
                                 </th>
-                                <th style="width: 21%; text-align: left;">
+                                <th style="width: 20%; text-align: left;">
                                     <?php echo lang('lbl_season'); ?>
                                 </th>
                                 <th style="width: 8%; text-align: left;">
@@ -64,10 +59,10 @@
                                 <th style="width: 12%; text-align: left;">
                                     <?php echo lang('lbl_type_player'); ?>
                                 </th>
-                                <th style="width: 13%; text-align: center;">
-                                    <?php echo lang('lbl_datetime'); ?>
+                                <th style="width: 10%; text-align: center;">
+                                    <?php echo lang('lbl_created_on'); ?>
                                 </th>
-                                <th>
+                                <th style="width: 10%; text-align: center;">
                                     <?php echo lang('status') ?>
                                 </th>
                                 <th>
@@ -94,5 +89,5 @@
 </div>
 <?php echo form_close(); ?>
 <script type="text/javascript">
-    var arr_type_player = <?php echo json_encode(type_player()); ?>      
+    var arr_type_player = <?php echo json_encode(type_player()); ?>    
 </script>

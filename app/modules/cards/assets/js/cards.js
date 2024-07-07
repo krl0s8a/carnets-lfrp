@@ -4,16 +4,25 @@ function render_type_player(x){
 }
 
 function status_card(x){
-    if (x == 'T') {
-        return '<p class="bg-success text-center">Habilitado</p>';
-    } else {
-        return '<p class="bg-danger text-center">Pendiente</p>';
+    switch (x) {
+        case 'Nuevo':
+            return '<span class="label label-default">Nuevo</span>';
+            break;
+        case 'Impreso pendiente' :
+            return '<span class="label label-danger">Impreso pendiente</span>';
+            break;
+        case 'Impreso a entregar' :
+            return '<span class="label label-warning">Impreso a entregar</span>';
+            break; 
+        default:
+            return '<span class="label label-success">Entregado</span>';
+            break;
     }
 }
 
 oTable = $('#cards_table').dataTable({
-    "aaSorting": [[7, "desc"],[6, "desc"]],
-    "aLengthMenu": [[10, 15, 25, 50, 100], [10, 15, 25, 50, 100]],
+    "aaSorting": [[6, "desc"]],
+    "aLengthMenu": [[10, 15, 20, 25, 50, 100], [10, 15, 20, 25, 50, 100]],
     //"iDisplayLength": oLengthMenu,
     "iDisplayLength": 10,
     'bProcessing': true, 'bServerSide': true,

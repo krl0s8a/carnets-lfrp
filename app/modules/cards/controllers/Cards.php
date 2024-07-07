@@ -9,7 +9,7 @@ class Cards extends MY_Controller {
     function __construct() {
         parent::__construct();
         $this->lang->load('cards');
-        $this->load->helper(array('array','players/player'));
+        $this->load->helper(array('array','players/player','cards/card'));
         $this->load->model(array('card_model','players/player_model','seasons/season_model','teams/team_model'));
 
         Assets::add_module_js('cards', 'cards.js');
@@ -153,10 +153,16 @@ class Cards extends MY_Controller {
     }
 
     private function card_big($obj, $data, $x, $y){
-        // Obtenemos los datos para el carnet
+        /* Obtenemos los datos para el carnet
+         Categorias :
+         1 : Masculino libre
+         2 : Femenino libre
+         5 : Masculino estandar
+         6 : Femenino estandar 
+        */
         list($season_id, $team_id, $player_id) = explode('/', $data);
         $card = $this->card_model->find_data_card($team_id,$player_id,$season_id);
-        switch ($card->category) {
+        switch ($card->t_id) {
             case 1: // masculino
                 if (in_array($card->type_player, array(1, 2,4,6,8,10))) {
                     $template = 'masculino-residente-grande.png';
@@ -171,7 +177,7 @@ class Cards extends MY_Controller {
                     $template = 'femenino-libre-grande.png';
                 }
                 break;
-            case 3: // standar masculino
+            case 5: // standar masculino
                 if (in_array($card->type_player, array(1, 2,4,6,8,10))) {
                     $template = 'masculino-residente-standar-grande.png';
                 } else {
@@ -201,7 +207,7 @@ class Cards extends MY_Controller {
         }        
         $obj->SetFont('Arial', 'B', 8);
         // Calculo edad
-        if (in_array($card->category, array(3,4))) {
+        if (in_array($card->t_id, array(3,4))) {
             if (isset($card->birth) && !empty($card->birth)) {
                 $edad = edad($card->birth);                
                 if ($edad > 34) {     
@@ -234,7 +240,7 @@ class Cards extends MY_Controller {
         // Valido desde
         $obj->SetFont('Arial', '', 6);
         $obj->SetXY($x+34,$y+42.5);
-        $obj->Cell(35, 6, date('d/m/Y', strtotime($card->datetime)), 0);
+        $obj->Cell(35, 6, date('d/m/Y', strtotime($card->date)), 0);
     }
 
     private function card($obj, $data, $x, $y){
@@ -382,8 +388,7 @@ class Cards extends MY_Controller {
             $data = array(
                 'number' => $_POST['number'],
                 'type_player' => $_POST['type_player'],
-                'datetime' => formatDate($_POST['datetime'],'d/m/Y','Y-m-d').' '.date('H:i:s'),
-                'category' => $_POST['category'],
+                'date' => formatDate($_POST['date'],'d/m/Y','Y-m-d'),
                 'status' => $_POST['status'],
                 'obs' => $_POST['obs'],
                 'card' => 1
@@ -548,7 +553,7 @@ class Cards extends MY_Controller {
                 }
                 // Print abonos
                 if ($this->input->post('form_action') == 'print_cards') {
-                    if (count($_POST['val']) > 10) {
+                    if (count($_POST['val']) > 40) {
                         Template::set_message('Imprimir en cantidades no mayor a 10', 'warning');
                         redirect($_SERVER['HTTP_REFERER']);
                     } else {
@@ -602,7 +607,7 @@ class Cards extends MY_Controller {
             $this->datatables->set_database('joomla');
             $action = '<div class="text-center"><a class="tip" title="Editar" href="'.site_url('cards/edit/$1').'" data-toggle="modal" data-target="#myModal"><i class="fa fa-edit"></i></a></div>';
             $this->datatables
-                ->select('concat_ws("/",t4.s_id,t3.id,t2.id) as id, concat_ws(" ",t2.last_name, t2.first_name) as full_name, t3.t_name, concat_ws(" - ",t4.s_name,t5.name) as tournament, t1.number, t1.type_player, t1.datetime, t1.status')
+                ->select('concat_ws("/",t4.s_id,t3.id,t2.id) as id, concat_ws(" ",t2.last_name, t2.first_name) as full_name, t3.t_name, concat_ws(" - ",t4.s_name,t5.name) as tournament, t1.number, t1.type_player, t1.created_on, t1.status')
                 ->from('co_bl_players_team as t1')
                 ->join('co_bl_players as t2', 't2.id = t1.player_id', 'left')
                 ->join('co_bl_teams as t3', 't3.id = t1.team_id', 'left')

@@ -10,15 +10,17 @@ $lang['cards'] = 'Carnets';
 
 // Fields
 $lang['lbl_player'] = 'Jugador/a';
-$lang['lbl_team'] = 'Equipo';
+$lang['lbl_team'] = 'Equipo';												
 $lang['lbl_season'] = 'Torneo';
 $lang['lbl_number'] = 'N° Carnet';
 $lang['lbl_type_player'] = 'Tipo jugador/a';
-$lang['lbl_date'] = 'Fecha';
-$lang['lbl_datetime'] = 'Fecha/Hora confección';
+$lang['lbl_date'] = 'Inscripción/Pase';
+$lang['lbl_datetime'] = 'Confección';
 $lang['lbl_category'] = 'Categoria';
 $lang['lbl_status'] = 'Estado';
-
+$lang['lbl_obs'] = 'Observación';
+$lang['lbl_created_on'] = 'Fecha/hora creación';
+																													
 // Options
 $lang['op_create_card'] = 'Crear nuevo carnet';
 $lang['op_delete_cards'] = 'Eliminar carnets';

@@ -15,10 +15,10 @@ class Card_model extends MY_Model {
     protected $date_format = 'datetime';
 
     /** @var bool Set the created time automatically (if true). */
-    protected $set_created = false;
+    protected $set_created = true;
 
     /** @var bool Set the modified time automatically (if true). */
-    protected $set_modified = false;
+    protected $set_modified = true;
     // Validations
     protected $validation_rules = [];
     protected $insert_validation_rules = [];
@@ -44,9 +44,8 @@ class Card_model extends MY_Model {
             'season_id' => $post['season_id'],
             'number' => $post['number'],
             'type_player' => $post['type_player'],
-            'datetime' => formatDate($post['date'],'d/m/Y','Y-m-d').' '.date('H:i:s'),
+            'date' => formatDate($post['date'],'d/m/Y','Y-m-d'),
             'photo' => $file,
-            'category' => $post['category'],
             'obs' => $post['obs'],
             'card' => 1
         );
@@ -54,7 +53,7 @@ class Card_model extends MY_Model {
     }
 
     public function find_data_card($team_id, $player_id, $season_id){
-        $sql = "SELECT t1.*, t2.t_name as team_name, t2.short_name, t2.t_emblem as emblem, t3.last_name, t3.first_name, t3.birth, t3.photo as photo_player 
+        $sql = "SELECT t1.*, t2.t_name as team_name, t2.short_name, t2.t_emblem as emblem, t3.last_name, t3.first_name, t3.birth, t3.photo as photo_player, t4.t_id 
                 FROM co_bl_players_team as t1
                 LEFT JOIN co_bl_teams as t2
                 ON t2.id = t1.team_id

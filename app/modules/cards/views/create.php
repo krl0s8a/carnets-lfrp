@@ -109,43 +109,20 @@
                                     <div class="col-md-7">
                                     <?php
                                     echo co_form_dropdown(
-                                        array(
-                                            'name' => 'category',
-                                            'class' => 'form-control'
-                                        ),
-                                        array(
-                                            1 => 'Masculino Libre',
-                                            2 => 'Femenino Libre',
-                                            3 => 'Masculino Estandar',
-                                            4 => 'Femenino Estandar'
-                                        ),
-                                        set_value('category'),
-                                        lang('lbl_category')
-                                    );
-                                    ?>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-5">
-                                        <?php 
-                                        echo co_form_dropdown(
                                             array(
                                                 'name' => 'status',
                                                 'class' => 'form-control'
                                             ),
-                                            array(
-                                                'T' => 'Habilitado',
-                                                'F' => 'Pendiente'
-                                            ),
+                                            status_card(),
                                             set_value('status'),
                                             lang('lbl_status')
                                         );
-                                        ?>
-                                    </div>  
+                                    ?>
+                                    </div>
                                 </div>
                                 <div class="row">
                                     <div class="col-md-12">
-                                        <label for="obs" class="control-label">Observacion</label>
+                                        <label for="obs" class="control-label"><?= lang('lbl_obs') ?></label>
                                         <div class="form-group">
                                             <textarea name="obs" id="obs" class="form-control" value="<?php echo set_value('obs') ?>"></textarea>
                                         </div>
