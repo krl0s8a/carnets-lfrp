@@ -3,13 +3,13 @@ function link_edit(x) {
     return '<a href="' + site.base_url + 'buses/edit/' + y[1] + '">' + y[0] + '</a>';
 }
 
-function bus_status(x) {
+function player_status(x) {
     var y = x.split('__');
 
     if (y[0] == 'T') {
-        r = '<div class="text-center"><span class="label label-success">Habilitado</span></div>';
+        r = '<span class="label label-success">Activo</span>';
     } else {
-        r = '<div class="text-center"><span class="label label-danger">Deshabilitado</span></div>';
+        r = '<span class="label label-danger">Inactivo</span>';
     }
     return r;
 }
@@ -49,7 +49,7 @@ oTable = $('#player_table').dataTable({
     "aoColumns": [{
         "bSortable": false,
         "mRender": checkbox
-    }, {"mRender":img_hl}, null, null, null, {"mRender" : fsd}, null, { "bSortable": false }]
+    }, {"mRender":img_hl}, null, null, null, {"mRender" : fsd}, null, {"mRender" : player_status}, { "bSortable": false }]
 }).on('click', '.po-delete-player', function (e) {
     e.preventDefault();
     $('.po').popover('hide');

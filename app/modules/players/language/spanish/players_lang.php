@@ -43,3 +43,4 @@ $lang['lbl_birth'] = 'Fecha de nacimiento';
 $lang['lbl_birth_short'] = 'Fecha Nac.';
 $lang['lbl_team'] = 'Equipo/s';
 $lang['lbl_photo'] = 'Foto';
+$lang['lbl_note'] = 'Nota';

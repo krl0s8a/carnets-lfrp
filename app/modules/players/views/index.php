@@ -54,6 +54,7 @@
                                 <th style="text-align: left; width: 10%;"><?= lang('lbl_dni') ?></th>
                                 <th style="text-align: center; width: 10%;"><?= lang('lbl_birth_short') ?></th>
                                 <th style="text-align: left; width: 20%;"><?= lang('lbl_team') ?></th>
+                                <th><?= lang('status') ?></th>
                                 <th style="width: 8%">
                                     <?php echo lang('actions'); ?>
                                 </th>
@@ -61,7 +62,7 @@
                         </thead>
                         <tbody>
                             <tr>
-                                <td colspan="8" class="dataTables_empty">
+                                <td colspan="9" class="dataTables_empty">
                                     <?= lang('loading_data_from_server') ?>
                                 </td>
                             </tr>

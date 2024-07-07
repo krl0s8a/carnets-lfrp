@@ -28,7 +28,7 @@
                     <div class="tab-content">
                         <div role="tabpanel" class="tab-pane active" id="tab-1">
                             <div class="row">
-                                <div class="col-md-2">
+                                <div class="col-md-3">
                                     <?php
                                     if (!empty($player->photo) && file_exists($_SERVER['DOCUMENT_ROOT'].'/assets/photos/players/'.$player->photo)) {
                                         $url = base_url('assets/photos/players/').$player->photo;
@@ -62,6 +62,20 @@
                                         set_value('last_name', $player->last_name),
                                         lang('lbl_last_name')
                                     );
+                                    
+                                    echo co_form_input(array(
+                                        'name'     => 'photo',
+                                        'id'       => 'photo',
+                                        'type' => 'file',
+                                        'class'    => 'form-control file',
+                                        'data-browse-label' => 'Adjuntar',
+                                        'data-show-upload' => false,
+                                        'data-show-preview' => false
+                                    ), '', lang('lbl_photo'));
+                                    ?>
+                                </div>
+                                <div class="col-md-2">
+                                    <?php 
                                     echo co_form_input(
                                         array(
                                             'name' => 'dni',
@@ -80,16 +94,26 @@
                                         set_value('birth', formatDate($player->birth,'Y-m-d','d/m/Y')),
                                         lang('lbl_birth')
                                     );
-                                    echo co_form_input(array(
-                                        'name'     => 'photo',
-                                        'id'       => 'photo',
-                                        'type' => 'file',
-                                        'class'    => 'form-control file',
-                                        'data-browse-label' => 'Adjuntar',
-                                        'data-show-upload' => false,
-                                        'data-show-preview' => false
-                                    ), '', lang('lbl_photo'));
+                                    echo co_form_dropdown(
+                                        array(
+                                            'name' => 'status',
+                                            'id' => 'status',
+                                            'class' => 'form-control'
+                                        ),
+                                        array(
+                                            'T' => 'Activo',
+                                            'F' => 'Inactivo'
+                                        ),
+                                        set_value('status', $player->status),
+                                        lang('status')
+                                    );
                                     ?>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="form-group">
+                                        <label for="note" class="control-label">Nota</label>
+                                        <textarea name="note" id="note" class="form-control"><?= $player->note ?></textarea>
+                                    </div>
                                 </div>
                             </div>
                         </div>

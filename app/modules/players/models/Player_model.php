@@ -18,10 +18,10 @@ class Player_model extends MY_Model {
     protected $date_format = 'datetime';
 
     /** @var bool Set the created time automatically (if true). */
-    protected $set_created = false;
+    protected $set_created = true;
 
     /** @var bool Set the modified time automatically (if true). */
-    protected $set_modified = false;
+    protected $set_modified = true;
 
 
 
@@ -35,6 +35,8 @@ class Player_model extends MY_Model {
         $data['dni'] = $post['dni'];
         $data['last_name'] = $post['last_name'];
         $data['first_name'] = $post['first_name'];
+        $data['status'] = isset($post['status']) ? $post['status'] : 'T';
+        $data['note'] = isset($post['note']) ? $post['note'] : '';
         return $data;
     }
 

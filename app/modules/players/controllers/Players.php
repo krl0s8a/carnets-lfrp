@@ -108,7 +108,7 @@ class Players  extends MY_Controller {
             Template::set_message(lang('invalid_id'), 'danger');
             redirect('players');
         }
-        if (isset($_POST['save']) || isset($_POST['saveandnew'])) {
+        if (isset($_POST['save']) || isset($_POST['saveandclose'])) {
             if ($this->save('update', $id)) {
                 log_activity(
                     $this->current_user->id,
@@ -213,6 +213,7 @@ class Players  extends MY_Controller {
     }
     // Methods private
     private function save($type = 'insert', $id = 0) {
+
         $this->form_validation->set_rules('last_name', lang('lbl_last_name'), 'required');
         $this->form_validation->set_rules('first_name', lang('lbl_first_name'), 'required');
         $this->form_validation->set_rules('dni', lang('lbl_dni'), 'required');
@@ -293,7 +294,7 @@ class Players  extends MY_Controller {
             $action .= '</ul></div></div>';
             $this->datatables->set_database('joomla');
             $this->datatables
-                ->select('t1.id as id, t1.photo, t1.last_name, t1.first_name, t1.dni, t1.birth, t1.shortname')
+                ->select('t1.id as id, t1.photo, t1.last_name, t1.first_name, t1.dni, t1.birth, t1.shortname,t1.status')
                 ->from('co_bl_players as t1')
                 //->edit_column('status', '$1__$2', 'status, id')
                 //->edit_column('name', '$1__$2', 'name, id')
