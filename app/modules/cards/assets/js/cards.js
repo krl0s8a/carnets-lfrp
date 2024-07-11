@@ -21,7 +21,7 @@ function status_card(x){
 }
 
 oTable = $('#cards_table').dataTable({
-    "aaSorting": [[6, "desc"]],
+    "aaSorting": [[7, "asc"]],
     "aLengthMenu": [[10, 15, 20, 25, 50, 100], [10, 15, 20, 25, 50, 100]],
     //"iDisplayLength": oLengthMenu,
     "iDisplayLength": 10,
@@ -40,7 +40,7 @@ oTable = $('#cards_table').dataTable({
     "aoColumns": [{
         "bSortable": false,
         "mRender": checkbox
-    }, null, null, null, null, {"mRender": render_type_player}, {"mRender" : fld}, {"mRender":status_card}, null]
+    }, null, null, null, null, {"mRender": render_type_player}, {"mRender" : fld}, {"mRender" : status_card}, null]
 });
 
 $player = $('#posplayer');
