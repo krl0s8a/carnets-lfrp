@@ -21,7 +21,7 @@ function status_card(x){
 }
 
 oTable = $('#cards_table').dataTable({
-    "aaSorting": [[7, "asc"]],
+    "aaSorting": [[7, "asc"],[6, "desc"]],
     "aLengthMenu": [[10, 15, 20, 25, 50, 100], [10, 15, 20, 25, 50, 100]],
     //"iDisplayLength": oLengthMenu,
     "iDisplayLength": 10,
