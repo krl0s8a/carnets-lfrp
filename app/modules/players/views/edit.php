@@ -102,7 +102,7 @@
                                         ),
                                         array(
                                             'Activo' => 'Activo',
-                                            'Inactivo' => 'Inactivo'
+                                            'Inactivo' => 'Inactivo',
                                             'Suspendido' => 'Suspendido'
                                         ),
                                         set_value('status', $player->status),
