@@ -101,8 +101,9 @@
                                             'class' => 'form-control'
                                         ),
                                         array(
-                                            'T' => 'Activo',
-                                            'F' => 'Inactivo'
+                                            'Activo' => 'Activo',
+                                            'Inactivo' => 'Inactivo'
+                                            'Suspendido' => 'Suspendido'
                                         ),
                                         set_value('status', $player->status),
                                         lang('status')

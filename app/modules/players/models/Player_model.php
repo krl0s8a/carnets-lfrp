@@ -35,7 +35,7 @@ class Player_model extends MY_Model {
         $data['dni'] = $post['dni'];
         $data['last_name'] = $post['last_name'];
         $data['first_name'] = $post['first_name'];
-        $data['status'] = isset($post['status']) ? $post['status'] : 'T';
+        $data['status'] = isset($post['status']) ? $post['status'] : 'Activo';
         $data['note'] = isset($post['note']) ? $post['note'] : '';
         return $data;
     }

@@ -6,10 +6,12 @@ function link_edit(x) {
 function player_status(x) {
     var y = x.split('__');
 
-    if (y[0] == 'T') {
+    if (y[0] == 'Activo') {
         r = '<span class="label label-success">Activo</span>';
+    } else if(y[0] == 'Inactivo') {
+        r = '<span class="label label-warning">Inactivo</span>';
     } else {
-        r = '<span class="label label-danger">Inactivo</span>';
+        r = '<span class="label label-danger">Suspendido</span>';
     }
     return r;
 }
