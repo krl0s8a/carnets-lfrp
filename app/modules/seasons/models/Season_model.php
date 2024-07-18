@@ -31,11 +31,12 @@ class Season_model extends MY_Model {
 	}
 
     public function find_all_by_tournament(){
-        $sql = "SELECT t1.s_id as id, CONCAT_WS(' - ', t1.s_name, t2.name) as name 
+        $sql = "SELECT t1.s_id as id, CONCAT_WS(' - ', t2.name, t1.s_name) as name 
         FROM co_bl_seasons as t1
         LEFT JOIN co_bl_tournament as t2
         ON t1.t_id = t2.id
-        ORDER BY t1.s_id DESC";
+        WHERE t1.status = 'Activo'
+        ORDER BY t2.name DESC";
         $query = $this->db->query($sql);
 
         return $query->result();
